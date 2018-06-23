@@ -1,0 +1,50 @@
+package com.example.tabrezahmad.createresume;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+
+public class CareerObjectiveFrag extends Fragment implements DatePicker.OnDateSetListener {
+    private EditText career_obj_date;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.designation_career_objective, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        career_obj_date = (EditText) getActivity().findViewById(R.id.career_objective_date);
+
+        career_obj_date.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                DatePicker dp = DatePicker.getInstance(getContext(), CareerObjectiveFrag.this);
+                dp.show();
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+        month = month + 1;
+        //  Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
+
+        String date = month + "/" + dayOfMonth + "/" + year;
+        career_obj_date.setText(date);
+    }
+
+
+}
