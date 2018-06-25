@@ -20,9 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.tabrezahmad.createresume.database.BasicInfo;
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
-import com.example.tabrezahmad.createresume.database.User;
+import com.example.tabrezahmad.createresume.database.Entity.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
