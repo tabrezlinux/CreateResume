@@ -1,8 +1,10 @@
 package com.example.tabrezahmad.createresume;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -11,7 +13,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,10 +33,10 @@ import java.util.Calendar;
 
 public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
 
-    private Button bt_upload_picture,bt_upload_sign;
-    private ImageView iv_picture,iv_sign;
+    private Button bt_upload_picture, bt_upload_sign;
+    private ImageView iv_picture, iv_sign;
     private static final String IMAGE_DIRECTORY = "/demonuts";
-    private final int GALLERY = 1, CAMERA = 2;
+    private final int REQUEST_CODE_GALLERY = 1, REQUEST_CODE_CAMERA = 2;
 
 
     @Override
@@ -61,19 +65,19 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
     private void showPictureDialog() {
 
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
-        pictureDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        pictureDialog.setPositiveButton("Pick", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        pictureDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//        pictureDialog.setPositiveButton("Pick", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
         pictureDialog.setTitle("Select Action");
@@ -105,12 +109,43 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        startActivityForResult(galleryIntent, GALLERY);
+        startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
     }
 
     private void takePhotoFromCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
+
+        // check permission
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // ask for permission
+            askCameraPermission(intent);
+
+        } else {
+            startActivityForResult(intent, REQUEST_CODE_CAMERA);
+        }
+    }
+
+    private void askCameraPermission(Intent intent) {
+    // should ask for permisssion?
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                Manifest.permission.CAMERA)) {
+
+            //ask for CAMERA permission
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_CAMERA);
+
+
+        } else {
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CODE_CAMERA);
+        }
+
     }
 
     @Override
@@ -119,7 +154,7 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-                case GALLERY:
+                case REQUEST_CODE_GALLERY:
                     if (data != null) {
                         Uri contentURI = data.getData();
                         try {
@@ -134,7 +169,7 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
                         }
                     }
                     break;
-                case CAMERA:
+                case REQUEST_CODE_CAMERA:
                     Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
                     iv_picture.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
@@ -180,17 +215,17 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.bt_upload_picture:
                 showPictureDialog();
-                Toast.makeText(getContext(),"Picture clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_picture:
-                Toast.makeText(getContext(),"Picture clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.bt_upload_sign:
                 showPictureDialog();
-                Toast.makeText(getContext(),"Picture clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_sign:
-                Toast.makeText(getContext(),"Picture clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
