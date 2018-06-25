@@ -1,6 +1,5 @@
 package com.example.tabrezahmad.createresume;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,48 +9,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import java.util.Calendar;
+public class ProjectsAndTrainingsFrag extends Fragment implements DatePicker.OnDateSetListener {
 
-public class PersonalInfoFrag extends Fragment implements DatePickerDialog.OnDateSetListener {
-
-    private EditText basicInfoDob;
-//    private DatePickerDialog.OnDateSetListener mDateSetListener;
-
+    private EditText project_date_from;
+    private EditText project_date_to;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.personal_info, container, false);
-
+        return inflater.inflate(R.layout.work_exp_project, container, false);
     }
-
-
-    // Basic Info DOB Date Picker
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        basicInfoDob = (EditText) getActivity().findViewById(R.id.dob);
+        project_date_from = (EditText) getActivity().findViewById(R.id.project_from);
+        project_date_to = (EditText) getActivity().findViewById(R.id.project_to);
 
-        basicInfoDob.setOnClickListener(new View.OnClickListener() {
+        project_date_from.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                DatePicker dp = DatePicker.getInstance(getContext(), PersonalInfoFrag.this);
+                DatePicker dp = DatePicker.getInstance(getContext(), ProjectsAndTrainingsFrag.this);
                 dp.show();
             }
         });
 
-    }
+        project_date_to.setOnClickListener(new View.OnClickListener() {
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//
-//    }
+            @Override
+            public void onClick(View view) {
+                DatePicker dp = DatePicker.getInstance(getContext(), ProjectsAndTrainingsFrag.this);
+                dp.show();
+            }
+        });
+
+
+
+    }
 
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
@@ -59,6 +55,7 @@ public class PersonalInfoFrag extends Fragment implements DatePickerDialog.OnDat
         //  Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
 
         String date = month + "/" + dayOfMonth + "/" + year;
-        basicInfoDob.setText(date);
+        project_date_from.setText(date);
+        project_date_to.setText(date);
     }
 }

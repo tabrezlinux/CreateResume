@@ -14,3 +14,4 @@ public class AreaOfInterestFrag extends Fragment {
         return inflater.inflate(R.layout.designation_area_of_interest, container, false);
     }
 }
+

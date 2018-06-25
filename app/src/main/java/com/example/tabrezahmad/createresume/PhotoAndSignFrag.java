@@ -27,7 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class PhotoSignFrag extends Fragment implements View.OnClickListener {
+public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
 
     private Button bt_upload_picture,bt_upload_sign;
     private ImageView iv_picture,iv_sign;

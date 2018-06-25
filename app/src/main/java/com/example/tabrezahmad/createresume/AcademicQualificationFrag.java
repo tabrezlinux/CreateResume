@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class EductionFrag extends Fragment {
+public class AcademicQualificationFrag extends Fragment {
     View root;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
