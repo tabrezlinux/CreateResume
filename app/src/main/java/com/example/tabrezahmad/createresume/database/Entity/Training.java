@@ -8,14 +8,14 @@ import android.arch.persistence.room.PrimaryKey;
 public class Training {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "industry")
-    private String industry;
+    public String industry;
 
     @ColumnInfo(name = "job_role")
-    private String job_role;
+    public String job_role;
 
     @ColumnInfo(name = "duration")
-    private String duration;
+    public String duration;
 }

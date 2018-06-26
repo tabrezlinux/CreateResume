@@ -10,27 +10,25 @@ import org.w3c.dom.Text;
 
 import java.util.Date;
 
-@Entity(foreignKeys = @ForeignKey(entity = AreaOfInterest.class,
-        parentColumns = "uid",
-        childColumns = "aoi_id"))
+@Entity
 public class CareerObjective {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name="objective")
-    private Text objective;
+    public String objective;
 
     @ColumnInfo(name="decleration")
-    private Text decleration;
+    public String decleration;
 
     @ColumnInfo(name="date")
-    private Date date;
+    public long date;
 
     @ColumnInfo(name="place")
-    private String place;
+    public String place;
 
     @ColumnInfo(name="aoi_id")
-    private int aoi_id;
+    public int aoi_id;
 
 }

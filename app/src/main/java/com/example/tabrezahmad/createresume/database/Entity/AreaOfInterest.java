@@ -8,8 +8,8 @@ import android.arch.persistence.room.PrimaryKey;
 public class AreaOfInterest {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name="area_of_interest")
-    private String area_of_interest;
+    public String area_of_interest;
 }

@@ -10,8 +10,8 @@ import org.w3c.dom.Text;
 public class Hobby {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "hobby")
-    private String hobby;
+    public String hobby;
 }

@@ -12,8 +12,8 @@ import java.util.List;
 public class Skill {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "skills")
-    private String skills;
+    public String skills;
 }

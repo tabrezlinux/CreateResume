@@ -3,6 +3,7 @@ package com.example.tabrezahmad.createresume.database.Entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
 
 import java.sql.Date;
 
@@ -10,25 +11,25 @@ import java.sql.Date;
 public class AcademicQualification {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "course")
-    private String course;
+    public String course;
 
     @ColumnInfo(name = "university")
-    private String university;
+    public String university;
 
     @ColumnInfo(name = "pursuing")
-    private char pursuing;
+    public char pursuing;
 
     @ColumnInfo(name = "date")
-    private Date date;
+    public long date;
 
     @ColumnInfo(name = "marks")
-    private double marks;
+    public double marks;
 
     //type include CPGA,PERCENTAGE
     @ColumnInfo(name = "marks_type")
-    private String marks_type;
+    public String marks_type;
 
 }

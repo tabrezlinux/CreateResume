@@ -19,7 +19,7 @@ public class BasicInfoFrag extends Fragment implements DatePickerDialog.OnDateSe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.personal_info, container, false);
+        return inflater.inflate(R.layout.basic_info, container, false);
 
     }
 

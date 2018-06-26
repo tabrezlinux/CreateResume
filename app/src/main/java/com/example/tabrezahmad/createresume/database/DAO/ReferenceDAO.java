@@ -13,18 +13,5 @@ import java.util.List;
 @Dao
 public interface ReferenceDAO {
 
-    // select all user
-    @Query("SELECT * FROM reference")
-    List<WorkExperienceDAO> getAllWorkExperience();
 
-    @Query("SELECT * FROM reference WHERE id IN (:id) LIMIT 1")
-    WorkExperienceDAO getRefernce(int id);
-
-    // insert
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertRefrence(Reference... references);
-
-    // delete user
-    @Delete
-    void delete(Reference reference);
 }

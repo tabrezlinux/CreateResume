@@ -10,17 +10,17 @@ import java.util.Date;
 public class ProfessionalQualification {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "course")
-    private String course;
+    public String course;
 
     @ColumnInfo(name = "institution")
-    private String institution;
+    public String institution;
 
     @ColumnInfo(name = "starting_date")
-    private Date starting_date;
+    public long starting_date;
 
     @ColumnInfo(name = "closing_date")
-    private Date closing_date;
+    public long closing_date;
 }

@@ -14,18 +14,5 @@ import java.util.List;
 @Dao
 public interface QualificationAcademicDAO {
 
-    // select all user
-    @Query("SELECT * FROM academicqualification")
-    List<AcademicQualification> getAllAcademicQualification();
 
-    @Query("SELECT * FROM academicqualification WHERE id IN (:id) LIMIT 1")
-    AcademicQualification getAcademicQualification(int id);
-
-    // insert
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertAcademicQualification(AcademicQualification... academicQualifications);
-
-    // delete user
-    @Delete
-    void delete(BasicInfo basicInfo);
 }

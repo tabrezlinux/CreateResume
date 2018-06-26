@@ -20,6 +20,9 @@ public interface BasicInfoDAO {
     @Query("SELECT * FROM basicinfo WHERE uid IN (:id) LIMIT 1")
     public BasicInfo getBasicInfo(int id);
 
+    @Query("SELECT * FROM basicinfo LIMIT 1")
+    public BasicInfo getBasicInfo();
+
     // insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertBasicInfo(BasicInfo... basicInfos);

@@ -29,7 +29,7 @@ public class BasicInfo {
     public String nationality;
 
     @ColumnInfo(name = "language")
-    public String[] Language;
+    public String Language;
 
     @ColumnInfo(name = "passport")
     public String passport;
@@ -44,9 +44,9 @@ public class BasicInfo {
     public String email;
 
     @ColumnInfo(name = "mobile")
-    private String mobile;
+    public String mobile;
 
     @ColumnInfo(name = "address")
-    private String address;
+    public String address;
 
 }

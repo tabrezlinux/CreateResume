@@ -8,8 +8,8 @@ import android.arch.persistence.room.PrimaryKey;
 public class TechnicalSkill {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "technical_skill")
-    private String technical_skill;
+    public String technical_skill;
 }

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         bi.date_of_birth = "03-12-1994";
         bi.father_name = "jamshed ahmad";
         bi.gender = 'M';
-        bi.Language = new String[] {"English", "Hindi", "Urdu"};
+        bi.Language = "English,Hindi,Urdu";
         bi.marital_status = 'U';
         bi.nationality = "Indian";
         bi.passport = "sdfdsf32131";
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 mDatabase.BasicInfoDAO().insertBasicInfo(bi);
-                //final User user = mDatabase.UserDao().getUser();
+                final BasicInfo bi = mDatabase.BasicInfoDAO().getBasicInfo();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

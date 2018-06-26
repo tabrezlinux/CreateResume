@@ -11,18 +11,5 @@ import java.util.List;
 @Dao
 public interface WorkExperienceDAO {
 
-    // select all user
-    @Query("SELECT * FROM workexperience")
-    List<WorkExperienceDAO> getAllWorkExperience();
 
-    @Query("SELECT * FROM workexperience WHERE uid IN (:id) LIMIT 1")
-    WorkExperienceDAO getWorkExperience(int id);
-
-    // insert
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertWorkExperience(WorkExperienceDAO... workExperiences);
-
-    // delete user
-    @Delete
-    void delete(WorkExperienceDAO workExperience);
 }

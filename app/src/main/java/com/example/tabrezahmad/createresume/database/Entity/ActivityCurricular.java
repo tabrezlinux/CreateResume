@@ -10,8 +10,8 @@ import org.w3c.dom.Text;
 public class ActivityCurricular {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "activity")
-    private Text activity;
+    public String activity;
 }

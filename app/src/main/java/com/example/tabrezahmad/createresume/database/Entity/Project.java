@@ -14,28 +14,28 @@ import java.util.Date;
 public class Project {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "title")
-    private String title;
+    public String title;
 
     @ColumnInfo(name = "description")
-    private Text description;
+    public String description;
 
     @ColumnInfo(name = "from_date")
-    private Date from_date;
+    public long from_date;
 
     @ColumnInfo(name = "to_date")
-    private Date to_date;
+    public long to_date;
 
     @ColumnInfo(name = "role")
-    private String role;
+    public String role;
 
     @ColumnInfo(name = "team_size")
-    private Integer team_size;
+    public Integer team_size;
 
     @ColumnInfo(name = "oraganizer")
-    private String organizer;
+    public String organizer;
 
 
 }

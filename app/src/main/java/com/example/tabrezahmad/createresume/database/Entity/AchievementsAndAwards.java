@@ -10,8 +10,8 @@ import org.w3c.dom.Text;
 public class AchievementsAndAwards {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "achievement_awards")
-    private String achievement_awards;
+    public String achievement_awards;
 }

@@ -7,8 +7,8 @@ import android.arch.persistence.room.PrimaryKey;
 public class PhotoAndSign {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
-    private String photo_url;
-    private String sign_url;
+    public Integer uid;
+    public String photo_url;
+    public String sign_url;
 
 }

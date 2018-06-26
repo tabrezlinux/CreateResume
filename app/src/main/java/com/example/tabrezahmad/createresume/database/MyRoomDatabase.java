@@ -50,7 +50,7 @@ import com.example.tabrezahmad.createresume.database.Entity.WorkExperience;
         Strength.class,
         TechnicalSkill.class,
         Training.class,
-        WorkExperience.class,}, version = 2)
+        WorkExperience.class,}, version = 1)
 
 public abstract class MyRoomDatabase extends RoomDatabase {
     public abstract BasicInfoDAO BasicInfoDAO();

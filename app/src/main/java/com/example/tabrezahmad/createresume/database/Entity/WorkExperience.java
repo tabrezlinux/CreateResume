@@ -10,24 +10,24 @@ import java.util.Date;
 public class WorkExperience {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name = "company")
-    private String company;
+    public String company;
 
     @ColumnInfo(name = "designation")
-    private String designation;
+    public String designation;
 
     @ColumnInfo(name = "role")
-    private String role;
+    public String role;
 
     @ColumnInfo(name = "working")
-    private boolean working;    // true/false
+    public boolean working;    // true/false
 
     @ColumnInfo(name = "from_date")
-    private Date from_date;
+    public long from_date;
 
     @ColumnInfo(name = "to_date")
-    private Date to_date;
+    public long to_date;
 
 }

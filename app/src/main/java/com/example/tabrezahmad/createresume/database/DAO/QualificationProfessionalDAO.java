@@ -14,18 +14,5 @@ import java.util.List;
 @Dao
 public interface QualificationProfessionalDAO {
 
-    // select all user
-    @Query("SELECT * FROM professionalqualification")
-    List<ProfessionalQualification> getAllProfessionalQualification();
 
-    @Query("SELECT * FROM professionalqualification WHERE id IN (:id) LIMIT 1")
-    ProfessionalQualification getProfessionalQualification(int id);
-
-    // insert
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertProfessionalQualification(ProfessionalQualification... professionalQualifications);
-
-    // delete user
-    @Delete
-    void delete(ProfessionalQualification professionalQualification);
 }
