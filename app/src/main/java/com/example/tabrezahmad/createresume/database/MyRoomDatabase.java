@@ -3,6 +3,14 @@ package com.example.tabrezahmad.createresume.database;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
+import com.example.tabrezahmad.createresume.database.DAO.BasicInfoDAO;
+import com.example.tabrezahmad.createresume.database.DAO.CareerObjectiveDAO;
+import com.example.tabrezahmad.createresume.database.DAO.PhotoAndSignDAO;
+import com.example.tabrezahmad.createresume.database.DAO.ProjectAndTrainingDAO;
+import com.example.tabrezahmad.createresume.database.DAO.QualificationAcademicDAO;
+import com.example.tabrezahmad.createresume.database.DAO.QualificationProfessionalDAO;
+import com.example.tabrezahmad.createresume.database.DAO.ReferenceDAO;
+import com.example.tabrezahmad.createresume.database.DAO.WorkExperienceDAO;
 import com.example.tabrezahmad.createresume.database.Entity.AcademicQualification;
 import com.example.tabrezahmad.createresume.database.Entity.AchievementsAndAwards;
 import com.example.tabrezahmad.createresume.database.Entity.ActivityCurricular;
@@ -45,6 +53,13 @@ import com.example.tabrezahmad.createresume.database.Entity.WorkExperience;
         WorkExperience.class,}, version = 2)
 
 public abstract class MyRoomDatabase extends RoomDatabase {
-    public abstract BasicInfo BasicInfoDAO();
+    public abstract BasicInfoDAO BasicInfoDAO();
+    public abstract QualificationAcademicDAO AcademicQualification();
+    public abstract QualificationProfessionalDAO ProfessionalQualification();
+    public abstract ProjectAndTrainingDAO ProjectAndTrainingDAO();
+    public abstract WorkExperienceDAO WorkExperienceDAO();
+    public abstract CareerObjectiveDAO CareerObjectiveDAO();
+    public abstract PhotoAndSignDAO PhotoAndSignDAO();
+    public abstract ReferenceDAO ReferenceDAO();
 
 }

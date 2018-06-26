@@ -1,28 +1,28 @@
 package com.example.tabrezahmad.createresume.database.DAO;
 
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.example.tabrezahmad.createresume.database.Entity.ProfessionalQualification;
-
 import java.util.List;
 
-public interface PhotoSign {
+@Dao
+public interface PhotoAndSignDAO {
 
     // select all user
     @Query("SELECT * FROM PhotoAndSign")
-    List<PhotoSign> getPhotoSign();
+    List<PhotoAndSignDAO> getPhotoSign();
 
     @Query("SELECT * FROM PhotoAndSign WHERE id IN (:id) LIMIT 1")
-    PhotoSign getPhotoSign(int id);
+    PhotoAndSignDAO getPhotoSign(int id);
 
     // insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertPhotoSign(PhotoSign... photoSigns);
+    public void insertPhotoSign(PhotoAndSignDAO... photoSigns);
 
     // delete user
     @Delete
-    void delete(PhotoSign photoSign);
+    void delete(PhotoAndSignDAO photoSign);
 }

@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 
 public class MainActivity extends AppCompatActivity
@@ -47,19 +48,31 @@ public class MainActivity extends AppCompatActivity
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     private void setupDatabase() {
 
+        final BasicInfo bi = new BasicInfo();
+        bi.name = "Tabrez";
+        bi.email = "something@gamil.com";
+        bi.date_of_birth = "03-12-1994";
+        bi.father_name = "jamshed ahmad";
+        bi.gender = 'M';
+        bi.Language = new String[] {"English", "Hindi", "Urdu"};
+        bi.marital_status = 'U';
+        bi.nationality = "Indian";
+        bi.passport = "sdfdsf32131";
+        bi.linked_in = "http://www.linkedin.com/profile/1532156";
+        bi.website = "http://www.tabrezahmad.com";
+
+
         // creating room database
         mDatabase = Room.databaseBuilder(getApplicationContext(), MyRoomDatabase.class, "mDatabase").build();
-
-
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                //mDatabase.BasicInfoDAO().ge;
+                mDatabase.BasicInfoDAO().insertBasicInfo(bi);
                 //final User user = mDatabase.UserDao().getUser();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //Toast.makeText(getApplicationContext(), "record inserted ID=" + user.uid, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "record inserted ID=" + bi.uid, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

@@ -2,6 +2,7 @@ package com.example.tabrezahmad.createresume.database.Entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Relation;
 
@@ -9,7 +10,9 @@ import org.w3c.dom.Text;
 
 import java.util.Date;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = AreaOfInterest.class,
+        parentColumns = "uid",
+        childColumns = "aoi_id"))
 public class CareerObjective {
 
     @PrimaryKey(autoGenerate = true)
@@ -26,5 +29,8 @@ public class CareerObjective {
 
     @ColumnInfo(name="place")
     private String place;
+
+    @ColumnInfo(name="aoi_id")
+    private int aoi_id;
 
 }

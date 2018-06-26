@@ -1,5 +1,6 @@
 package com.example.tabrezahmad.createresume.database.DAO;
 
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -9,14 +10,15 @@ import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
 
 import java.util.List;
 
+@Dao
 public interface BasicInfoDAO {
 
     // select all user
     @Query("SELECT * FROM basicinfo")
-    List<BasicInfo> getAllBasicInfo();
+    public List<BasicInfo> getAllBasicInfo();
 
     @Query("SELECT * FROM basicinfo WHERE uid IN (:id) LIMIT 1")
-    BasicInfo getBasicInfo(int id);
+    public BasicInfo getBasicInfo(int id);
 
     // insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -24,7 +26,7 @@ public interface BasicInfoDAO {
 
     // delete user
     @Delete
-    void delete(BasicInfo basicInfo);
+    public void delete(BasicInfo basicInfo);
 
 
 }

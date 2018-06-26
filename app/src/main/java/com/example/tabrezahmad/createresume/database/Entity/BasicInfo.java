@@ -8,40 +8,40 @@ import android.arch.persistence.room.PrimaryKey;
 public class BasicInfo {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer uid;
+    public Integer uid;
 
     @ColumnInfo(name="name")
-    private String name;
+    public String name;
 
     @ColumnInfo(name = "dob")
-    private String date_of_birth;
+    public String date_of_birth;
 
     @ColumnInfo(name = "father")
-    private String father_name;
+    public String father_name;
 
     @ColumnInfo(name = "gender")
-    private Character gender;
+    public Character gender;
 
     @ColumnInfo(name = "marital_status")
-    private Character marital_status;
+    public Character marital_status;
 
     @ColumnInfo(name = "nationality")
-    private String nationality;
+    public String nationality;
 
     @ColumnInfo(name = "language")
-    private String[] Language;
+    public String[] Language;
 
     @ColumnInfo(name = "passport")
-    private String passport;
+    public String passport;
 
     @ColumnInfo(name = "linked_in")
-    private String linked_in;
+    public String linked_in;
 
     @ColumnInfo(name = "website")
-    private String website;
+    public String website;
 
     @ColumnInfo(name = "email")
-    private String email;
+    public String email;
 
     @ColumnInfo(name = "mobile")
     private String mobile;
