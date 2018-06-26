@@ -12,10 +12,10 @@ import java.util.List;
 public interface PhotoSign {
 
     // select all user
-    @Query("SELECT * FROM photosign")
+    @Query("SELECT * FROM PhotoAndSign")
     List<PhotoSign> getPhotoSign();
 
-    @Query("SELECT * FROM photosign WHERE id IN (:id) LIMIT 1")
+    @Query("SELECT * FROM PhotoAndSign WHERE id IN (:id) LIMIT 1")
     PhotoSign getPhotoSign(int id);
 
     // insert

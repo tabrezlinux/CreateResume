@@ -10,7 +10,7 @@ import java.util.Date;
 public class WorkExperience {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name = "company")
     private String company;
@@ -22,7 +22,7 @@ public class WorkExperience {
     private String role;
 
     @ColumnInfo(name = "working")
-    private char working;
+    private boolean working;    // true/false
 
     @ColumnInfo(name = "from_date")
     private Date from_date;

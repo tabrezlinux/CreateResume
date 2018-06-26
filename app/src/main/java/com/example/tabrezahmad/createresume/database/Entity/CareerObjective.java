@@ -3,6 +3,7 @@ package com.example.tabrezahmad.createresume.database.Entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Relation;
 
 import org.w3c.dom.Text;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 public class CareerObjective {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name="objective")
     private Text objective;
@@ -26,9 +27,4 @@ public class CareerObjective {
     @ColumnInfo(name="place")
     private String place;
 
-    @ColumnInfo(name="area_of_interest")
-    private Text area_of_interest;
-
-    @ColumnInfo(name="strength")
-    private String strength;
 }

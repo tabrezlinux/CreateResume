@@ -40,4 +40,13 @@ public class BasicInfo {
     @ColumnInfo(name = "website")
     private String website;
 
+    @ColumnInfo(name = "email")
+    private String email;
+
+    @ColumnInfo(name = "mobile")
+    private String mobile;
+
+    @ColumnInfo(name = "address")
+    private String address;
+
 }

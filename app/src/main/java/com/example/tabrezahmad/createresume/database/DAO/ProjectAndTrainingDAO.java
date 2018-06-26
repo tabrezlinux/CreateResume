@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query;
 
 import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
 import com.example.tabrezahmad.createresume.database.Entity.IndustrialExposure;
-import com.example.tabrezahmad.createresume.database.Entity.InplantTrainingAttended;
+import com.example.tabrezahmad.createresume.database.Entity.Training;
 import com.example.tabrezahmad.createresume.database.Entity.Internship;
 import com.example.tabrezahmad.createresume.database.Entity.Project;
 
@@ -25,8 +25,8 @@ public interface ProjectAndTrainingDAO {
     @Query("SELECT * FROM industrialExposure")
     List<IndustrialExposure> getIndustrialExposure();
 
-    @Query("SELECT * FROM inplanttrainingattended")
-    List<InplantTrainingAttended> getInplantTrainingAttended();
+    @Query("SELECT * FROM Training")
+    List<Training> getInplantTrainingAttended();
 
 
     @Query("SELECT * FROM project WHERE id IN (:id) LIMIT 1")
@@ -38,7 +38,7 @@ public interface ProjectAndTrainingDAO {
     @Query("SELECT * FROM industrialexposure WHERE id IN (:id) LIMIT 1")
     BasicInfo getIndustrialExposure(int id);
 
-    @Query("SELECT * FROM inplanttrainingattended WHERE id IN (:id) LIMIT 1")
+    @Query("SELECT * FROM Training WHERE id IN (:id) LIMIT 1")
     BasicInfo getInplantTrainingAttended(int id);
 
     // insert
@@ -52,7 +52,7 @@ public interface ProjectAndTrainingDAO {
     public void insertIndustrialExposure(IndustrialExposure... industrialExposures);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertInplantTrainingAttended(InplantTrainingAttended... inplantTrainingAttendeds);
+    public void insertInplantTrainingAttended(Training... trainings);
 
     // delete user
     @Delete
@@ -65,7 +65,7 @@ public interface ProjectAndTrainingDAO {
     void delete(IndustrialExposure industrialExposure);
 
     @Delete
-    void delete(InplantTrainingAttended inplantTrainingAttended);
+    void delete(Training training);
 
 
 }

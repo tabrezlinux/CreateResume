@@ -5,11 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
-public class User{
+public class AreaOfInterest {
+
     @PrimaryKey(autoGenerate = true)
-    public Integer uid;
+    private Integer uid;
 
-    @ColumnInfo(name="name")
-    public String name;
-
+    @ColumnInfo(name="area_of_interest")
+    private String area_of_interest;
 }

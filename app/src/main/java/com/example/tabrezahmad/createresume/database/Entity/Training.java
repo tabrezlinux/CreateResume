@@ -5,10 +5,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
-public class InplantTrainingAttended {
+public class Training {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name = "industry")
     private String industry;

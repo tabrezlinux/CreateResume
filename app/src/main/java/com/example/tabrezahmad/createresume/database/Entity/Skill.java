@@ -6,12 +6,14 @@ import android.arch.persistence.room.PrimaryKey;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+
 @Entity
 public class Skill {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name = "skills")
-    private Text skills;
+    private String skills;
 }

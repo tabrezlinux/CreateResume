@@ -4,14 +4,12 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import org.w3c.dom.Text;
-
 @Entity
-public class AchievementsAwards {
+public class TechnicalSkill {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
-    @ColumnInfo(name = "achievement_awards")
-    private Text achievement_awards;
+    @ColumnInfo(name = "technical_skill")
+    private String technical_skill;
 }

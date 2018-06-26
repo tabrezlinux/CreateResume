@@ -10,7 +10,7 @@ import java.sql.Date;
 public class AcademicQualification {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name = "course")
     private String course;

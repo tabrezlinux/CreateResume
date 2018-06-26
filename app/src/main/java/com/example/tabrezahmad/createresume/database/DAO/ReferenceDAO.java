@@ -13,10 +13,10 @@ public interface ReferenceDAO {
 
     // select all user
     @Query("SELECT * FROM reference")
-    List<WorkExperience> getAllWorkExperience();
+    List<WorkExperienceDAO> getAllWorkExperience();
 
     @Query("SELECT * FROM reference WHERE id IN (:id) LIMIT 1")
-    WorkExperience getRefernce(int id);
+    WorkExperienceDAO getRefernce(int id);
 
     // insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)

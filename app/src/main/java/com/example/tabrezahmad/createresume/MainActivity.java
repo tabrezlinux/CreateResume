@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
-import com.example.tabrezahmad.createresume.database.Entity.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
@@ -51,18 +50,16 @@ public class MainActivity extends AppCompatActivity
         // creating room database
         mDatabase = Room.databaseBuilder(getApplicationContext(), MyRoomDatabase.class, "mDatabase").build();
 
-        final User u = new User();
-        u.name = "mush";
 
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                mDatabase.UserDao().insertUsers(u);
-                final User user = mDatabase.UserDao().getUser();
+                //mDatabase.BasicInfoDAO().ge;
+                //final User user = mDatabase.UserDao().getUser();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "record inserted ID=" + user.uid, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "record inserted ID=" + user.uid, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

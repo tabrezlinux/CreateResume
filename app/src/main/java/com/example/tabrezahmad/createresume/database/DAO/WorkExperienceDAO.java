@@ -5,24 +5,22 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.example.tabrezahmad.createresume.database.Entity.ProfessionalQualification;
-
 import java.util.List;
 
-public interface WorkExperience {
+public interface WorkExperienceDAO {
 
     // select all user
     @Query("SELECT * FROM workexperience")
-    List<WorkExperience> getAllWorkExperience();
+    List<WorkExperienceDAO> getAllWorkExperience();
 
-    @Query("SELECT * FROM workexperience WHERE id IN (:id) LIMIT 1")
-    WorkExperience getWorkExperience(int id);
+    @Query("SELECT * FROM workexperience WHERE uid IN (:id) LIMIT 1")
+    WorkExperienceDAO getWorkExperience(int id);
 
     // insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertWorkExperience(WorkExperience... workExperiences);
+    public void insertWorkExperience(WorkExperienceDAO... workExperiences);
 
     // delete user
     @Delete
-    void delete(WorkExperience workExperience);
+    void delete(WorkExperienceDAO workExperience);
 }

@@ -10,7 +10,7 @@ import com.example.tabrezahmad.createresume.database.Entity.ProfessionalQualific
 
 import java.util.List;
 
-public interface ProfessionalDAO {
+public interface QualificationProfessionalDAO {
 
     // select all user
     @Query("SELECT * FROM professionalqualification")

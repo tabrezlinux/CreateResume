@@ -6,19 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 
 import org.w3c.dom.Text;
 
-import java.lang.reflect.Type;
-
 @Entity
-public class Contact {
+public class ActivityExtra {
 
     @PrimaryKey(autoGenerate = true)
     private Integer uid;
 
-    @ColumnInfo(name = "contact")
-    private Text contact;
-
-    // type = ADD,EMIAL,MOBILE
-    @ColumnInfo(name = "type")
-    private String type;
-
+    @ColumnInfo(name = "activity")
+    private Text activity;
 }

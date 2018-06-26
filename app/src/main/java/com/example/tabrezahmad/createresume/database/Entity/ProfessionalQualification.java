@@ -10,7 +10,7 @@ import java.util.Date;
 public class ProfessionalQualification {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name = "course")
     private String course;

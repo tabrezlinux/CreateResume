@@ -7,5 +7,13 @@ import android.arch.persistence.room.PrimaryKey;
 public class Reference {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
+    private String name;
+    private String email;
+    private String mobile;
+
+    private String designation;
+    private String organization;
+    private String employee_id;
+
 }

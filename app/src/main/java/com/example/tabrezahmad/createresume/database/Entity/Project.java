@@ -14,7 +14,7 @@ import java.util.Date;
 public class Project {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name = "title")
     private String title;

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,9 +13,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="24dp"
-            android:paddingTop="24dp">
+            android:padding="@dimen/frag_padding">
 
+            <!--name-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/name"
                 android:layout_width="match_parent"
@@ -29,13 +28,14 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <!--date of birth-->
+            <EditText
+                android:id="@+id/dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date of Birth" />
 
-                <EditText
-                    android:id="@+id/dob"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="DOB" />
-
+            <!--father's name-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/fname"
                 android:layout_width="match_parent"
@@ -48,20 +48,25 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <!--gender-->
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Gender" />
 
+            <!--gender radio group-->
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/radioButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
+                    android:clickable="true"
                     android:text="Male" />
 
                 <RadioButton
@@ -69,33 +74,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="false"
+                    android:clickable="true"
                     android:text="Female" />
             </RadioGroup>
 
+            <!--marital status-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Marital Status" />
 
+            <!--marital radio group-->
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <RadioButton
-                    android:id="@+id/radioButton5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Married" />
 
                 <RadioButton
                     android:id="@+id/radioButton6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="UnMarried" />
+                    android:checked="true"
+                    android:clickable="true"
+                    android:text="Unmarried" />
+
+                <RadioButton
+                    android:id="@+id/radioButton5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:text="Married" />
+
             </RadioGroup>
 
+            <!--Language-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/language"
                 android:layout_width="match_parent"
@@ -108,41 +123,8 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Mobile"
-                    android:inputType="phone" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Address" />
-            </android.support.design.widget.TextInputLayout>
-
+            <!--Nationality-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/nationality"
                 android:layout_width="match_parent"
@@ -155,6 +137,8 @@
                     android:hint="Nationality" />
             </android.support.design.widget.TextInputLayout>
 
+
+            <!--passport-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/passport"
                 android:layout_width="match_parent"
@@ -166,6 +150,7 @@
                     android:hint="Passport" />
             </android.support.design.widget.TextInputLayout>
 
+            <!--linkedin-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/linkedin"
                 android:layout_width="match_parent"
@@ -177,6 +162,7 @@
                     android:hint="LinkedIn" />
             </android.support.design.widget.TextInputLayout>
 
+            <!--website-->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -184,15 +170,20 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textWebEditText"
-                    android:hint="Website" />
+                    android:hint="Website"
+                    android:inputType="textWebEditText" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <!--@external layout contacts-->
+            <include
+                layout="@layout/contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </LinearLayout>

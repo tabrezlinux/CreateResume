@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class Internship {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer uid;
 
     @ColumnInfo(name = "industry")
     private String industry;
