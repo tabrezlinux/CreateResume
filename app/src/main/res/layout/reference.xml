@@ -24,10 +24,12 @@
        android:orientation="horizontal">
 
        <RadioButton
+           style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="External Reference"/>
        <RadioButton
+           style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Internal Refernce"/>

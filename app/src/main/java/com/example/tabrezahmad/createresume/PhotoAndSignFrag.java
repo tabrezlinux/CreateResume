@@ -55,7 +55,7 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
         iv_sign = (ImageView) view.findViewById(R.id.iv_sign);
 
         bt_upload_picture.setOnClickListener(this);
-        //iv_picture.setOnClickListener(this);
+        iv_picture.setOnClickListener(this);
 
         bt_upload_sign.setOnClickListener(this);
         iv_sign.setOnClickListener(this);
@@ -159,13 +159,13 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
                         Uri contentURI = data.getData();
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
-                            String path = saveImage(bitmap);
-                            Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+//                            String path = saveImage(bitmap);
+//                            Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
                             iv_picture.setImageBitmap(bitmap);
 
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
                         }
                     }
                     break;
@@ -173,9 +173,10 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
                     Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
                     iv_picture.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
-                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
                     break;
             }
+
 
         }
     }
