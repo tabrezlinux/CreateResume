@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
 
@@ -25,11 +26,15 @@ public interface BasicInfoDAO {
 
     // insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertBasicInfo(BasicInfo... basicInfos);
+    public void insert(BasicInfo... basicInfos);
+
+    //update
+    @Update
+    public void update(BasicInfo... basicInfos);
 
     // delete user
     @Delete
-    public void delete(BasicInfo basicInfo);
+    public void delete(BasicInfo... basicInfo);
 
 
 }

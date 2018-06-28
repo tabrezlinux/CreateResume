@@ -26,7 +26,7 @@ import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
-    MyRoomDatabase mDatabase;           // room database
+    public static MyRoomDatabase mDatabase;           // room database
     ViewPager viewPager;                // view pager
     MyPagerAdapter myPagerAdapter;      // custom pager adapter
     TabLayout tabLayout;                // tab layout
@@ -48,39 +48,11 @@ public class MainActivity extends AppCompatActivity
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     private void setupDatabase() {
 
-        final BasicInfo bi = new BasicInfo();
-        bi.name = "Tabrez";
-        bi.email = "something@gamil.com";
-        bi.date_of_birth = "03-12-1994";
-        bi.father_name = "jamshed ahmad";
-        bi.gender = 'M';
-        bi.Language = "English,Hindi,Urdu";
-        bi.marital_status = 'U';
-        bi.nationality = "Indian";
-        bi.passport = "sdfdsf32131";
-        bi.linked_in = "http://www.linkedin.com/profile/1532156";
-        bi.website = "http://www.tabrezahmad.com";
-
-
         // creating room database
         mDatabase = Room.databaseBuilder(getApplicationContext(), MyRoomDatabase.class, "mDatabase").build();
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mDatabase.BasicInfoDAO().insertBasicInfo(bi);
-                final BasicInfo bi = mDatabase.BasicInfoDAO().getBasicInfo();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "record inserted ID=" + bi.uid, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-
-        t.start();
 
         Toast.makeText(this, "database created", Toast.LENGTH_SHORT).show();
+
     }
 
 

@@ -16,7 +16,7 @@ public class DatePicker extends DatePickerDialog {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        int themeId = android.R.style.Theme_Material_Dialog;
+        int themeId = android.R.style.Theme_DeviceDefault;
 
         DatePicker dp = new DatePicker(context,themeId,listener,year,month,day);
         return dp;
