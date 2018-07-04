@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/frag_padding">
 
     <!--course/degree-->
     <android.support.design.widget.TextInputLayout
@@ -17,7 +26,7 @@
             android:id="@+id/course"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Course" />
+            android:hint="@string/academic_qualification_course" />
     </android.support.design.widget.TextInputLayout>
 
     <!--university-->
@@ -31,7 +40,7 @@
             android:id="@+id/institute"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Institution" />
+            android:hint="@string/academic_qualification_institution" />
     </android.support.design.widget.TextInputLayout>
 
     <!--pursuing/passed-->
@@ -109,6 +118,10 @@
             android:layout_height="wrap_content"
             android:inputType="number" />
     </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

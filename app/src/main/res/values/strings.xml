@@ -6,4 +6,46 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    //Basic Info
+    <string name="basic_info_name">Name</string>
+    <string name="basic_info_dob">Date Of Birth</string>
+    <string name="basic_info_father_name">Father Name</string>
+    <string name="basic_info_language">Language</string>
+    <string name="basic_info_nationality">Nationality</string>
+    <string name="basic_info_passport_no">Passport Number</string>
+    <string name="basic_info_linkedIn">LinkedIn Profile URL</string>
+    <string name="basic_info_website_url">Website URL</string>
+    <string name="basic_info_email">Email</string>
+    <string name="basic_info_mobile">Mobile</string>
+    <string name="basic_info_address">Address</string>
+
+    //Academic Qualification
+    <string name="academic_qualification_course">Course</string>
+    <string name="academic_qualification_institution">Institution</string>
+
+    //Work Experience
+    <string name="work_experience_company">Company/Organization</string>
+    <string name="work_experience_designation">Designation</string>
+    <string name="work_experience_role">Role</string>
+    <string name="work_experience_from">From</string>
+    <string name="work_experience_to">To</string>
+
+    //Reference
+    <string name="reference_name">Reference Name</string>
+    <string name="reference_designation">Reference Designation</string>
+    <string name="reference_organization">Reference Organization</string>
+    <string name="reference_email">Reference Email</string>
+    <string name="reference_mobile">Reference Mobile</string>
+
+    //Main Drawer
+    <string name="drawer_home">Home</string>
+    <string name="drawer_new_resume">New Resume</string>
+    <string name="drawer_backup_resource">BackUp Resources</string>
+    <string name="drawer_privacy_policy">Privacy Policy</string>
+    <string name="drawer_about_us">About Us</string>
+    <string name="drawer_rate_us">Rate Us</string>
+
+
+
 </resources>
