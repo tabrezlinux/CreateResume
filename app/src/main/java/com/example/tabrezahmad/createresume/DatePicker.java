@@ -20,7 +20,6 @@ public class DatePicker extends DatePickerDialog {
 
         DatePicker dp = new DatePicker(context,themeId,listener,year,month,day);
         return dp;
-
     }
 
     private DatePicker(@NonNull Context context, int themeResId, @Nullable OnDateSetListener listener, int year, int monthOfYear, int dayOfMonth) {

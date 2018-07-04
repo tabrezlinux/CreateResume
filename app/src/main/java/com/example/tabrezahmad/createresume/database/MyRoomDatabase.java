@@ -54,8 +54,8 @@ import com.example.tabrezahmad.createresume.database.Entity.WorkExperience;
 
 public abstract class MyRoomDatabase extends RoomDatabase {
     public abstract BasicInfoDAO BasicInfoDAO();
-    public abstract QualificationAcademicDAO AcademicQualification();
-    public abstract QualificationProfessionalDAO ProfessionalQualification();
+    public abstract QualificationAcademicDAO AcademicQualificationDAO();
+    public abstract QualificationProfessionalDAO ProfessionalQualificationDAO();
     public abstract ProjectAndTrainingDAO ProjectAndTrainingDAO();
     public abstract WorkExperienceDAO WorkExperienceDAO();
     public abstract CareerObjectiveDAO CareerObjectiveDAO();

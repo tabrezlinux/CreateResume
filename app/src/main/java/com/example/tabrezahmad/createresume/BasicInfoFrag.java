@@ -149,6 +149,7 @@ public class BasicInfoFrag extends Fragment implements DatePickerDialog.OnDateSe
 
     private void saveFormData() {
 
+        // get form data
         final BasicInfo bi = new BasicInfo();
         bi.name = name.getText().toString();
         bi.date_of_birth = dob.getText().toString();

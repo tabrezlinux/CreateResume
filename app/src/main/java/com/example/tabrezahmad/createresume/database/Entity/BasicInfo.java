@@ -9,6 +9,7 @@ import android.arch.persistence.room.Update;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 
 @Entity
 public class BasicInfo {
@@ -53,16 +54,16 @@ public class BasicInfo {
     @ColumnInfo(name = "website")
     public String website;
 
-    @ColumnInfo(name = "email")
     @NonNull
+    @ColumnInfo(name = "email")
     public String email;
 
-    @ColumnInfo(name = "mobile")
     @NonNull
+    @ColumnInfo(name = "mobile")
     public String mobile;
 
-    @ColumnInfo(name = "address")
     @NonNull
+    @ColumnInfo(name = "address")
     public String address;
 
 }

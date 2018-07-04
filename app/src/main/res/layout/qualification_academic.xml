@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--course/degree-->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tl_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Course" />
+    </android.support.design.widget.TextInputLayout>
+
+    <!--university-->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tl_institute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/institute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Institution" />
+    </android.support.design.widget.TextInputLayout>
+
+    <!--pursuing/passed-->
+    <RadioGroup
+        android:id="@+id/rg_pursuing_or_passed"
+        android:checkedButton="@id/rb_passed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--pursuing-->
+        <RadioButton
+            android:id="@+id/rb_pursuing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pursuing" />
+
+        <!--passed-->
+        <RadioButton
+            android:id="@+id/rb_passed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Passed" />
+    </RadioGroup>
+
+    <!--year of passing-->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tl_year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <!--Marks type CGPA/Percentage-->
+    <RadioGroup
+        android:id="@+id/rg_marks_type"
+        android:checkedButton="@id/rb_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--CGPA-->
+        <RadioButton
+            android:id="@+id/rb_cgpa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CGPA" />
+
+        <!--Percentage-->
+        <RadioButton
+            android:id="@+id/rb_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Percentage (%)" />
+    </RadioGroup>
+
+    <!--Marks Obtained-->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tl_marks"
+        app:errorEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/marks_obtained"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+    </android.support.design.widget.TextInputLayout>
+
+
+</LinearLayout>

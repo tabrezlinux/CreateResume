@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -19,9 +19,9 @@
             <!--name-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tl_name"
-                app:errorEnabled="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/name"
@@ -33,16 +33,24 @@
             </android.support.design.widget.TextInputLayout>
 
             <!--date of birth-->
-            <EditText
-                android:id="@+id/dob"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tl_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date of Birth"
-                android:inputType="text|textNoSuggestions" />
+                app:errorEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Date of Birth"
+                    android:inputType="text|textNoSuggestions" />
+            </android.support.design.widget.TextInputLayout>
 
             <!--father's name-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tl_father_name"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -57,9 +65,9 @@
 
             <!--gender-->
             <TextView
-                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Gender" />
 
             <!--gender radio group-->
@@ -91,9 +99,9 @@
 
             <!--marital status-->
             <TextView
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Marital Status" />
 
             <!--marital radio group-->
@@ -102,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:checkedButton="@+id/radio_unmarried">
-
+                <!--unmarried-->
                 <RadioButton
                     android:id="@+id/radio_unmarried"
                     android:layout_width="wrap_content"
@@ -111,7 +119,7 @@
                     android:checked="false"
                     android:clickable="true"
                     android:text="Unmarried" />
-
+                <!--married-->
                 <RadioButton
                     android:id="@+id/radio_married"
                     android:layout_width="wrap_content"
@@ -120,28 +128,28 @@
                     android:checked="false"
                     android:clickable="true"
                     android:text="Married" />
-
             </RadioGroup>
+
 
             <!--Language-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tl_language"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/language"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Language"
                     android:inputType="text" />
-
             </android.support.design.widget.TextInputLayout>
 
 
             <!--Nationality-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tl_nationality"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout_editor_absoluteX="8dp">
@@ -158,6 +166,7 @@
             <!--passport-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tl_passport"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -172,6 +181,7 @@
             <!--linkedin-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tl_linkedin"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -186,6 +196,7 @@
             <!--website-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tl_website"
+                app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
