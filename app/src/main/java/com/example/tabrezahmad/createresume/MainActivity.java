@@ -162,17 +162,17 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.nav_camera:
+            case R.id.drawer_home:
                 break;
-            case R.id.nav_gallery:
+            case R.id.drawer_new_resume:
                 break;
-            case R.id.nav_slideshow:
+            case R.id.drawer_backup_resource:
                 break;
-            case R.id.nav_manage:
+            case R.id.drawer_privacy_policy:
                 break;
-            case R.id.nav_share:
+            case R.id.drawer_about_us:
                 break;
-            case  R.id.nav_send:
+            case  R.id.drawer_rate_us:
                 break;
         }
 
