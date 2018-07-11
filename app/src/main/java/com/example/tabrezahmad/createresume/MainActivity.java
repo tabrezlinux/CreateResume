@@ -105,14 +105,16 @@ public class MainActivity extends AppCompatActivity
         // set TabLayout tab items
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Basic Info"));
-        tabLayout.addTab(tabLayout.newTab().setText("Academic"));
-        tabLayout.addTab(tabLayout.newTab().setText("Professional"));
-        tabLayout.addTab(tabLayout.newTab().setText("Projects & Intern."));
-        tabLayout.addTab(tabLayout.newTab().setText("Working Exp."));
-        tabLayout.addTab(tabLayout.newTab().setText("Skills & Achv."));
+        tabLayout.addTab(tabLayout.newTab().setText("Academics"));
+        tabLayout.addTab(tabLayout.newTab().setText("Professionals"));
+
+        tabLayout.addTab(tabLayout.newTab().setText("Projects"));
+        tabLayout.addTab(tabLayout.newTab().setText("Internships"));
+        tabLayout.addTab(tabLayout.newTab().setText("Experience"));
+
+        tabLayout.addTab(tabLayout.newTab().setText("Achievements"));
         tabLayout.addTab(tabLayout.newTab().setText("Career Obj."));
-        tabLayout.addTab(tabLayout.newTab().setText("Photo & Sign"));
-        tabLayout.addTab(tabLayout.newTab().setText("Reference"));
+
 
         // positioning tabLayout
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -235,15 +237,15 @@ public class MainActivity extends AppCompatActivity
                 case 2:
                     return new ProQualificationFrag();
                 case 3:
-                    return new WorkExperienceFrag();
-                case 4 :
-                    return new SkillAndAchievementFrag();
+                    return new ProjectsAndTrainingsFrag();
+                case 4:
+                    return new InternshipFrag();
                 case 5:
-                    return new CareerObjectiveFrag();
-                case 6:
-                    return new PhotoAndSignFrag();
+                    return new WorkExperienceFrag();
+                case 6 :
+                    return new SkillAndAchievementFrag();
                 case 7:
-                    return new ReferenceFrag();
+                    return new CareerObjectiveFrag();
                 default:
                     return null;
             }
@@ -251,7 +253,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 5;
+            return 8;
         }
     }
 
