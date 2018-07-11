@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 
 import java.util.Calendar;
 
-public class DatePicker extends DatePickerDialog {
+public class MyDatePicker extends DatePickerDialog {
 
-    public static DatePicker getInstance(@NonNull Context context, @Nullable OnDateSetListener listener){
+    public static MyDatePicker getInstance(@NonNull Context context, @Nullable OnDateSetListener listener){
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -18,11 +18,11 @@ public class DatePicker extends DatePickerDialog {
 
         int themeId = android.R.style.Theme_DeviceDefault;
 
-        DatePicker dp = new DatePicker(context,themeId,listener,year,month,day);
+        MyDatePicker dp = new MyDatePicker(context,themeId,listener,year,month,day);
         return dp;
     }
 
-    private DatePicker(@NonNull Context context, int themeResId, @Nullable OnDateSetListener listener, int year, int monthOfYear, int dayOfMonth) {
+    private MyDatePicker(@NonNull Context context, int themeResId, @Nullable OnDateSetListener listener, int year, int monthOfYear, int dayOfMonth) {
         super(context, themeResId, listener, year, monthOfYear, dayOfMonth);
     }
 }

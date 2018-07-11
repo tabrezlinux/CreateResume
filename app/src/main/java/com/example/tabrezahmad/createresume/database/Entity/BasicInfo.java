@@ -5,17 +5,24 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
 
+import com.example.tabrezahmad.createresume.database.Converters.BasicInfoCoverters;
+import com.example.tabrezahmad.createresume.database.Converters.Converters;
+
+import java.sql.Date;
+import java.util.List;
+
 @Entity
 public class BasicInfo {
 
     @PrimaryKey(autoGenerate = true)
-    public Integer uid;
+    public Long uid;
 
     @NonNull
     @ColumnInfo(name="name")
@@ -23,27 +30,27 @@ public class BasicInfo {
 
     @NonNull
     @ColumnInfo(name = "dob")
-    public String date_of_birth;
+    public Date date_of_birth;
 
+    @NonNull
     @ColumnInfo(name = "father")
     public String father_name;
 
     // M = Male, F = Female
     @NonNull
     @ColumnInfo(name = "gender")
-    public char gender;
+    public String gender;
 
-    // U = unmarried, M = Married
+    // UN = unmarried, MR = Married
     @NonNull
     @ColumnInfo(name = "marital_status")
-    public char marital_status;
+    public String marital_status;
 
     @ColumnInfo(name = "nationality")
     public String nationality;
 
     @ColumnInfo(name = "language")
-    @NonNull
-    public String Language;
+    public String[] Language;
 
     @ColumnInfo(name = "passport")
     public String passport;
@@ -60,7 +67,7 @@ public class BasicInfo {
 
     @NonNull
     @ColumnInfo(name = "mobile")
-    public String mobile;
+    public String[] mobile;
 
     @NonNull
     @ColumnInfo(name = "address")

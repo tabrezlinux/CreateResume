@@ -28,6 +28,12 @@ public interface BasicInfoDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insert(BasicInfo... basicInfos);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public Long insert(BasicInfo basicInfo);
+
+    //@Insert(onConflict = OnConflictStrategy.REPLACE)
+    //public List<Long> insert(BasicInfo... basicInfos);
+
     //update
     @Update
     public void update(BasicInfo... basicInfos);

@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.tabrezahmad.createresume.database.Entity.AcademicQualification;
@@ -24,7 +23,7 @@ import com.example.tabrezahmad.createresume.database.FormValidator;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class AcademicQualificationFrag extends Fragment implements View.OnClickListener, View.OnTouchListener, DatePickerDialog.OnDateSetListener {
+public class ProQualificationFrag extends Fragment implements View.OnClickListener, View.OnTouchListener, DatePickerDialog.OnDateSetListener {
 
     private TextInputLayout tl_course, tl_institute, tl_year, tl_marks;
     private EditText et_course, et_institute, et_year, et_marks;

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-public class ProjectsAndTrainingsFrag extends Fragment implements DatePicker.OnDateSetListener {
+public class ProjectsAndTrainingsFrag extends Fragment implements MyDatePicker.OnDateSetListener {
 
     private EditText project_date_from;
     private EditText project_date_to;
@@ -31,7 +31,7 @@ public class ProjectsAndTrainingsFrag extends Fragment implements DatePicker.OnD
 
             @Override
             public void onClick(View view) {
-                DatePicker dp = DatePicker.getInstance(getContext(), ProjectsAndTrainingsFrag.this);
+                MyDatePicker dp = MyDatePicker.getInstance(getContext(), ProjectsAndTrainingsFrag.this);
                 dp.show();
             }
         });
@@ -40,7 +40,7 @@ public class ProjectsAndTrainingsFrag extends Fragment implements DatePicker.OnD
 
             @Override
             public void onClick(View view) {
-                DatePicker dp = DatePicker.getInstance(getContext(), ProjectsAndTrainingsFrag.this);
+                MyDatePicker dp = MyDatePicker.getInstance(getContext(), ProjectsAndTrainingsFrag.this);
                 dp.show();
             }
         });

@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity
     MyPagerAdapter myPagerAdapter;      // custom pager adapter
     TabLayout tabLayout;                // tab layout
 
+    public static Long BASIC_INFO_FOREIGN_KEY_ID = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,14 +66,14 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // fab setup
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         // setup drawer layout and navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -103,8 +105,12 @@ public class MainActivity extends AppCompatActivity
         // set TabLayout tab items
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Basic Info"));
-        tabLayout.addTab(tabLayout.newTab().setText("Academic Qualification"));
-        tabLayout.addTab(tabLayout.newTab().setText("Work Experience"));
+        tabLayout.addTab(tabLayout.newTab().setText("Academic"));
+        tabLayout.addTab(tabLayout.newTab().setText("Professional"));
+        tabLayout.addTab(tabLayout.newTab().setText("Projects & Intern."));
+        tabLayout.addTab(tabLayout.newTab().setText("Working Exp."));
+        tabLayout.addTab(tabLayout.newTab().setText("Skills & Achv."));
+        tabLayout.addTab(tabLayout.newTab().setText("Career Obj."));
         tabLayout.addTab(tabLayout.newTab().setText("Photo & Sign"));
         tabLayout.addTab(tabLayout.newTab().setText("Reference"));
 
@@ -227,50 +233,20 @@ public class MainActivity extends AppCompatActivity
                 case 1:
                     return new AcademicQualificationFrag();
                 case 2:
-                    return new WorkExperienceFrag();
+                    return new ProQualificationFrag();
                 case 3:
+                    return new WorkExperienceFrag();
+                case 4 :
+                    return new SkillAndAchievementFrag();
+                case 5:
+                    return new CareerObjectiveFrag();
+                case 6:
                     return new PhotoAndSignFrag();
-                case 4:
+                case 7:
                     return new ReferenceFrag();
                 default:
                     return null;
             }
-            /*
-            if (position == 1)
-                return new AcademicQualificationFrag();
-            if (position == 2)
-                return new WorkExperienceFrag();
-            if (position == 3)
-                return new ProjectsAndTrainingsFrag();
-            if (position == 4)
-                return new IndustrialExposureFrag();
-            if (position == 5)
-                return new InplantTrainingAttendedFrag();
-            if (position == 6)
-                return new InternshipFrag();
-            if (position == 7)
-                return new SkillsFrag();
-            if (position == 8)
-                return new StrengthFrag();
-            if (position == 9)
-                return new HobbiesFrag();
-            if (position == 10)
-                return new DesignationFrag();
-            if (position == 11)
-                return new CareerObjectiveFrag();
-            if (position == 12)
-                return new AreaOfInterestFrag();
-            if (position == 13)
-                return new ExtraActivitiesFrag();
-            if (position == 14)
-                return new CurricularActivitiesFrag();
-            if (position == 15)
-                return new AchievementsFrag();
-            if (position == 16)
-                return new PhotoAndSignFrag();
-            if (position == 17)
-                return new ReferenceFrag();
-            */
         }
 
         @Override

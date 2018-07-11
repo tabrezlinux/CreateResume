@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-public class CareerObjectiveFrag extends Fragment implements DatePicker.OnDateSetListener {
+public class CareerObjectiveFrag extends Fragment implements MyDatePicker.OnDateSetListener {
     private EditText career_obj_date;
 
     @Override
@@ -29,7 +29,7 @@ public class CareerObjectiveFrag extends Fragment implements DatePicker.OnDateSe
 
             @Override
             public void onClick(View view) {
-                DatePicker dp = DatePicker.getInstance(getContext(), CareerObjectiveFrag.this);
+                MyDatePicker dp = MyDatePicker.getInstance(getContext(), CareerObjectiveFrag.this);
                 dp.show();
             }
         });
