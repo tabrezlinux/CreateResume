@@ -1,0 +1,156 @@
+<?xml version="1.0" charset="utf-8"?>
+<!Doctype html>
+<html>
+	<head>
+		<title>template grid</title>
+
+		<!-- defines the window and its size -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- bootstrap -->
+		<!-- <link media="print"rel="stylesheet" href="css/bootstrap.min.css"> -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		
+		<!-- my javascript -->
+		<script type="text/javascript">
+			
+		</script>
+
+		<!-- my stylesheet -->
+		<style type="text/css">
+		
+		/*styles for printer*/
+		@media print {
+			
+			/* Print CSS rules go here */
+			/* Note: You need a separate @media screen group for other rules */
+
+			.border{
+				display:block;
+				width:100%;
+				border:1px dotted red;
+			}
+			.card{
+				background-color:red;
+				border:4px solid blue;
+				margin-left: 300px;
+			}
+		}
+		
+		/* styles for display screen*/
+		@media screen {
+			/* Screen CSS rules go here */
+			.card{
+				height:240px;
+				border:1px solid #CCC;
+				margin-left: 16px;
+				border-radius:8px 8px 0 0;
+				background-color:#FFFFFF;
+				background-image: url(ludo.png);
+				background-position:center center;
+				background-repeat: no-repeat;
+				/*animation: mymove 5s infinite;*/
+			}
+
+			@keyframes mymove {
+			    from {top: 0px;}
+			    to {top: 200px;}
+			}
+			.tab{
+				position: absolute;
+				width: 100%;
+				margin:0 auto 0 auto; 
+				bottom: 0;
+				right: 0;
+				left: 0;
+				background-color:rgba(0,0,0,0.8);
+				color:#EEEEEE;
+				padding:16px;
+				border-radius:8px 8px 0 0;
+				text-align: center;
+				display:hidden;
+			}
+			.tab:hover{
+				font-weight: bold;
+			}
+		}	
+			
+		</style>
+		
+		<script type="text/javascript">
+			document.getElementById("academic").remove();			
+		</script>
+	</head>
+	<body>
+
+		<!-- container -->
+		<div class="container">
+		
+		<!-- header -->
+		<h2><center>RESUME</center></h2>
+
+			<div class="row">
+				
+				<div class="col-sm-2 card">
+					<p class="tab">Classic</p>					
+				</div>
+				
+				<span class="col-sm-1"></span>
+
+				<div class="col-sm-2 card">
+					<p class="tab">Classic</p>					
+				</div>
+
+			</div>
+			
+			<div class="row">
+				
+				<div class="col-sm-2 card">
+					<p class="tab">Classic</p>					
+				</div>
+				
+				<span class="col-sm-1"></span>
+
+				<div class="col-sm-2 card">
+					<p class="tab">Classic</p>					
+				</div>
+
+			</div>
+			
+
+
+		</div>
+		
+		<p>Name : <span id="name">value</span></p>
+		<p>Date of birth : <span id="name">value</span></p>
+		<p>Father's Name : <span id="name">value</span></p>
+				
+		<p>Academic Qualification</p>
+		<table id="academic">
+			<thead>
+				<tr>
+					<th>Degree</th>
+					<th>University/College</th>
+					<th>Passing Year</th>
+					<th>Marks</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>s</td>
+					<td>dsf</td>
+					<td>sdf</td>
+					<td>sdf</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		Professional Qualification
+		
+		Work Experience
+		
+	</body>
+
+</html>

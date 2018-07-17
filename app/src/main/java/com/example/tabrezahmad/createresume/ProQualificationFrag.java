@@ -71,8 +71,8 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
         QUALIFICATION_OBJ = new AcademicQualification();
 
         // SET BUTTONS
-        FloatingActionButton fab = root.findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        //FloatingActionButton fab = root.findViewById(R.id.fab);
+        //fab.setOnClickListener(this);
 
         // SETUP FIELDS
         et_course = root.findViewById(R.id.course);

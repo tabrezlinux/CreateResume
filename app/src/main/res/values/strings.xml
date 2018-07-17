@@ -1,13 +1,14 @@
 <resources>
-    <string name="app_name">CreateResume</string>
+    <string name="app_name">Resume Designer</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">@string/app_name</string>
+    <string name="nav_header_subtitle">username@domain.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    //Basic Info
+    <!--Basic Info-->
     <string name="basic_info_name">Name</string>
     <string name="basic_info_dob">Date Of Birth</string>
     <string name="basic_info_father_name">Father Name</string>
@@ -20,25 +21,25 @@
     <string name="basic_info_mobile">Mobile</string>
     <string name="basic_info_address">Address</string>
 
-    //Academic Qualification
+    <!--Qualification-->
     <string name="academic_qualification_course">Course</string>
     <string name="academic_qualification_institution">Institution</string>
 
-    //Work Experience
+    <!--Work Experience-->
     <string name="work_experience_company">Company/Organization</string>
     <string name="work_experience_designation">Designation</string>
     <string name="work_experience_role">Role</string>
     <string name="work_experience_from">From</string>
     <string name="work_experience_to">To</string>
 
-    //Reference
+    <!--Reference-->
     <string name="reference_name">Reference Name</string>
     <string name="reference_designation">Reference Designation</string>
     <string name="reference_organization">Reference Organization</string>
     <string name="reference_email">Reference Email</string>
     <string name="reference_mobile">Reference Mobile</string>
 
-    //Main Drawer
+    <!--Main Navigation drawer-->
     <string name="drawer_home">Home</string>
     <string name="drawer_new_resume">New Resume</string>
     <string name="drawer_backup_resource">BackUp Resources</string>

@@ -1,9 +1,6 @@
 package com.example.tabrezahmad.createresume;
 
-import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 
-public class MainActivity extends AppCompatActivity
+public class FinalActivity extends AppCompatActivity
         implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener, View.OnClickListener {
 
     public static MyRoomDatabase mDatabase;     // room database
@@ -31,7 +27,6 @@ public class MainActivity extends AppCompatActivity
     TabLayout tabLayout;                        // tab layout
 
     public static Long BASIC_INFO_FOREIGN_KEY_ID = null;
-    public static String NAME = "";
     public static int TOTAL_TABS = 0;
 
     // ON CREATE ACTIVITY --------------------------------------------------------------------------
@@ -39,14 +34,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle b = getIntent().getExtras();
-        if (b != null)
-            NAME = b.getString("name");
-
-        Toast.makeText(this, NAME, Toast.LENGTH_SHORT).show();
-
         // SET CONTENT LAYOUT
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_final);
 
         // INIT DATABASE
         setupDatabase();
@@ -98,18 +87,12 @@ public class MainActivity extends AppCompatActivity
 
         // TAB ITEMS SETUP
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.addTab(tabLayout.newTab().setText("Basic Info"));
-        tabLayout.addTab(tabLayout.newTab().setText("Academics"));
-        tabLayout.addTab(tabLayout.newTab().setText("Professionals"));
-        tabLayout.addTab(tabLayout.newTab().setText("Projects"));
-        tabLayout.addTab(tabLayout.newTab().setText("Internships"));
-        tabLayout.addTab(tabLayout.newTab().setText("Experience"));
-        tabLayout.addTab(tabLayout.newTab().setText("Achievements"));
-        tabLayout.addTab(tabLayout.newTab().setText("Career Obj."));
+        tabLayout.addTab(tabLayout.newTab().setText("Picture and Sign"));
+        tabLayout.addTab(tabLayout.newTab().setText("Reference"));
 
         // TABLAYOUT POSITION SETUP
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         // ON TAB SELECTION
         tabLayout.addOnTabSelectedListener(this);
@@ -188,65 +171,19 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                if (viewPager.getCurrentItem() < (TOTAL_TABS-1) ) {
+                if (viewPager.getCurrentItem() < (TOTAL_TABS - 1)) {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                     //Toast.makeText(this,"CUR " + viewPager.getCurrentItem() + "COUNT " + TOTAL_TABS,Toast.LENGTH_SHORT).show();
-                } else{
-                    finalDialog();
+                } else {
+                    // Preview Activity
+                    Intent intent = new Intent(FinalActivity.this, TemplateActivity.class);
+                    //Bundle b = new Bundle();
+                    //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
+                    startActivity(intent);
                 }
                 break;
         }
     }
-
-
-    private void finalDialog() {
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
-        alert.setMessage("Add Picture or Reference");
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MainActivity.this, FinalActivity.class);
-                //Bundle b = new Bundle();
-                //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
-                startActivity(intent);
-
-            }
-        });
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Template Activity
-                Intent intent = new Intent(MainActivity.this, TemplateActivity.class);
-                //Bundle b = new Bundle();
-                //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
-                startActivity(intent);
-            }
-        });
-
-        AlertDialog dialog = alert.create();
-        dialog.show();
-
-    }
-
-
-    class UserDialog extends AppCompatDialog {
-        Context context;
-
-        public UserDialog(Context context) {
-            super(context);
-            this.context = context;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.dialog_finish);
-        }
-
-    }
-
 
     // PAGER ADAPTER    ----------------------------------------------------------------------------
     public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -260,21 +197,9 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new BasicInfoFrag();
+                    return new PhotoAndSignFrag();
                 case 1:
-                    return new AcademicQualificationFrag();
-                case 2:
-                    return new ProQualificationFrag();
-                case 3:
-                    return new ProjectsAndTrainingsFrag();
-                case 4:
-                    return new InternshipFrag();
-                case 5:
-                    return new WorkExperienceFrag();
-                case 6:
-                    return new SkillAndAchievementFrag();
-                case 7:
-                    return new CareerObjectiveFrag();
+                    return new ReferenceFrag();
                 default:
                     return null;
             }
@@ -282,7 +207,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 8;
+            return 2;
         }
     }
 

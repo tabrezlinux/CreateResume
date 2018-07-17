@@ -2,21 +2,11 @@ package com.example.tabrezahmad.createresume.database.Entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.TypeConverters;
-import android.arch.persistence.room.Update;
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
-
-import com.example.tabrezahmad.createresume.database.Converters.BasicInfoCoverters;
-import com.example.tabrezahmad.createresume.database.Converters.Converters;
+import android.webkit.JavascriptInterface;
 
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 public class BasicInfo {
@@ -73,4 +63,82 @@ public class BasicInfo {
     @ColumnInfo(name = "address")
     public String address;
 
+
+    @JavascriptInterface
+    public Long getUid() {
+        return uid;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public Date getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public String getFather_name() {
+        return father_name;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public String getGender() {
+        return gender;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public String getMarital_status() {
+        return marital_status;
+    }
+
+    @JavascriptInterface
+    public String getNationality() {
+        return nationality;
+    }
+
+    @JavascriptInterface
+    public String[] getLanguage() {
+        return Language;
+    }
+
+    @JavascriptInterface
+    public String getPassport() {
+        return passport;
+    }
+
+    @JavascriptInterface
+    public String getLinked_in() {
+        return linked_in;
+    }
+
+    @JavascriptInterface
+    public String getWebsite() {
+        return website;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public String getEmail() {
+        return email;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public String[] getMobile() {
+        return mobile;
+    }
+
+    @JavascriptInterface
+    @NonNull
+    public String getAddress() {
+        return address;
+    }
 }
