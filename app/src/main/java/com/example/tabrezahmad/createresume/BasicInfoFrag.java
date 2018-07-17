@@ -91,6 +91,7 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupViews();
+        name.setText(MainActivity.NAME);
 
     }
 
@@ -106,8 +107,8 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
         // BASIC INFO ENTITY OBJECT
         BASIC_INFO_OBJ = new BasicInfo();
 
-        FloatingActionButton fab = root.findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        //FloatingActionButton fab = root.findViewById(R.id.fab);
+        //fab.setOnClickListener(this);
 
         // Fields
         name = root.findViewById(R.id.name);

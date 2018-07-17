@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Bootstrap Example</title>
+ <meta charset="utf-8">
+ <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+ <link rel="stylesheet" href="css/bootstrap.min.css">
+ <script src="js/jquery.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
+
+ <script type="text/javascript">
+
+
+	var BasicInfoJSON = {
+			"name": "Musharraf",
+			"dob": "3,11,1988",
+			"father": "Alam",
+			"gender": "M",
+			"status": "UN",
+			"email": "mail@domain.com",
+			"mobile": "9876543210",
+			"address": "House No.214, Xpress lane, Local, City 46200, State, INDIA",
+			"language": "English, Hindi",
+			"nationality": "Indian",
+			"passport": "FZ12AA00321",
+			"linkedin": "htpp://www.linked.in/profile/user?id=146",
+			"website": "http://www.google.com"
+		};
+
+	var AcademicJSON = {
+			"degree" : null,
+			"institute": null,
+			"is_pursuing": null,
+			"year": null,
+			"marks": null,
+			"marks_type": null
+		};
+
+	var ProfessionalJSON = {
+			"course":null,
+			"institute" : null,
+			"is_pursuing" : null,
+			"year" : null,
+			"marks" : null,
+			"marks_type" : null
+		};
+
+	var ProjectJSON = {
+			"title" : null,
+			"description" : null,
+			"duration_from" : null,
+			"duration_to" : null,
+			"role" : null,
+			"teamSize" : null,
+			"organizer" : null,
+			"location" : null
+		};
+
+	var InternshipJSON = {
+			"company" : null,
+			"role" : null,
+			"duration_from" : null,
+			"duration_to" : null,
+			"location" : null
+		};
+
+	var ExperienceJSON = {
+		"company" : null,
+		"designation" : null,
+		"role" : null,
+		"is_working" : null,
+		"worked_from" : null,
+		"worked_to" : null,
+		"location" : null
+	};
+
+	var AchievementJSON = {
+		"achievement" : null
+	};
+
+	var CarrierObjectiveJSON = {
+		"objective" : null,
+		"declaration" : null,
+		"date" : null,
+		"place" : null
+	};
+
+	var PictureAndSignJSON = {
+		"pic_path" : null,
+		"sign_path" : null
+	};
+
+	var ReferenceJSON = {
+		"ref_name" :null,
+		"ref_designation" : null,
+		"ref_company_name" : null,
+		"ref_email" : null,
+		"ref_mobile" : null,
+		"ref_is_internal" : null,
+		"ref_emp_id" : null
+	};
+
+
+	var jsonData = {
+		"BasicInfo" : BasicInfoJSON,
+		"Academic" : AcademicJSON,
+		"Professional" : ProfessionalJSON,
+		"Project" : ProjectJSON,
+		"Internship" : InternshipJSON,
+		"Experience" : ExperienceJSON,
+		"Achievement" : AchievementJSON,
+		"CarrierObjective" : CarrierObjectiveJSON,
+		"PictureAndSign" : PictureAndSignJSON,
+		"Reference" : ReferenceJSON
+	};
+
+	// check for data
+	function loaddata(){
+
+		document.getElementById("bi_name").innerHTML = jObj.getName();
+		document.getElementById("bi_dob").innerHTML = jObj.getDate_of_birth();
+		document.getElementById("bi_father").innerHTML = jObj.getFather_name();
+		document.getElementById("bi_gender").innerHTML = jObj.getGender();
+		document.getElementById("bi_marital_status").innerHTML = jObj.getMarital_status();
+		document.getElementById("bi_email").innerHTML = jObj.getEmail();
+		document.getElementById("bi_mobile").innerHTML = jObj.getMobile();
+		document.getElementById("bi_address").innerHTML = jObj.getAddress();
+
+		//alert(jObj.getDob());
+
+		//alert(BasicInfoJSON.name);
+	}
+
+	// if basic info exists
+
+	// if project exists
+
+	// if academic exists
+
+</script>
+	<style type="text/css">
+		.border{
+			border:1px dashed #CCC;
+			margin-top : 8px;
+		}
+		.padding{
+			padding:1em;
+		}
+	</style>
+</head>
+
+
+<body onload="loaddata()">
+
+	<!-- BasicInfo HTML IDS = 
+		bi_name, 
+		bi_dob, 
+		bi_father, 
+		bi_gender, 
+		bi_marital_status, 
+		bi_email, 
+		bi_mobile, 
+		bi_address,
+		bi_language, 
+		bi_nationality, 
+		bi_passport
+		bi_linkedin, 
+		bi_website -->
+
+	<!-- Academic HTML IDS = 
+		aq_degree, 
+		aq_institute, 
+		aq_is_pursuing, 
+		aq_year, 
+		aq_marks, 
+		aq_marks_type -->
+	
+	<!-- Professional HTML IDS = 
+		pq_course, 
+		pq_institute, 
+		pq_is_pursuing,
+		pq_year, 
+		pq_marks, 
+		pq_marks_type -->
+	
+	<!-- Project HTML IDS = 
+		proj_title, 
+		proj_desc, 
+		proj_duration_from, 
+		proj_duration_to, 
+		proj_role, 
+		proj_team_size,
+		proj_organizer,
+		proj_location -->
+
+	<!-- Internship HTML IDS = 
+		intern_company, 
+		intern_role, 
+		intern_duration_from, 
+		intern_duration_to
+		intern_location -->
+	
+	<!-- Experience HTML IDS = 
+		exp_company, 
+		exp_designation, 
+		exp_role, 
+		exp_is_working, 
+		exp_worked_from, 
+		exp_worked_to,
+		exp_location -->
+	
+	<!-- Achievement HTML IDS = 
+		achv_achievement -->
+	
+	<!-- Carrier Objective HTML IDS = 
+		co_objective, 
+		co_declaration, 
+		co_date, 
+		co_place -->
+	
+	<!-- Picture and Sign HTML IDS = 
+		picSign_pic, 
+		picSign_sign -->
+	
+	<!-- Reference HTML IDS = 
+		ref_name, 
+		ref_designation, 
+		ref_company, 
+		ref_email, 
+		ref_mobile, 
+		ref_is_internal, 
+		ref_emp_id -->
+
+<!-- whole page -->
+<div class="container">
+
+	<!-- resume title -->
+	<h1 class="padding"><center>Resume</center></h1>
+	 
+	 <!-- basic info -->
+	 <div class="border padding">
+
+		<table id="bi" border="0" cellpadding="6">
+			<!-- name -->
+			<tr>
+				<th>Name</th>
+				<td>: &nbsp;<span id="bi_name">value</span></td>
+			</tr>
+			<!-- dob -->
+			<tr>
+				<th>Date of Birth</th>
+				<td> : &nbsp;<span id="bi_dob">value</span></td>
+			</tr>
+			<!-- father -->
+			<tr>
+				<th>Father's Name</th>
+				<td> : &nbsp;<span id="bi_father">value</span></td>
+			</tr>
+			<!-- gender -->
+			<tr>
+				<th>Gender</th>
+				<td> : &nbsp;<span id="bi_gender">value</span></td>
+			</tr>
+			<!-- marital status -->
+			<tr>
+				<th>Marital Status</th>
+				<td> : &nbsp;<span id="bi_marital_status">value</span></td>
+			</tr>
+			<!-- email -->
+			<tr>
+				<th>Email</th>
+				<td> : &nbsp;<span id="bi_email">value</span></td>
+			</tr>
+			<!-- mobile -->
+			<tr>
+				<th>Mobile</th>
+				<td> : &nbsp;<span id="bi_mobile">value</span></td>
+			</tr>
+			<!-- address -->
+			<tr>
+				<th>Address</th>
+				<td> : &nbsp;<span id="bi_address">value</span></td>
+			</tr>
+			<!-- language -->
+			<tr>
+				<th>Language</th>
+				<td> : &nbsp;<span id="bi_language">value</span></td>
+			</tr>
+			<!-- nationality -->
+			<tr>
+				<th>Nationality</th>
+				<td> : &nbsp;<span id="bi_nationality">value</span></td>
+			</tr>
+			<!-- passport -->
+			<tr>
+				<th>Passport</th>
+				<td> : &nbsp;<span id="bi_passport">value</span></td>
+			</tr>
+			<!-- linkedin -->
+			<tr>
+				<th>linked In</th>
+				<td> : &nbsp;<span id="bi_linkedin">value</span></td>
+			</tr>
+			<!-- websit -->
+			<tr>
+				<th>Webiste</th>
+				<td> : &nbsp;<span id="bi_website">value</span></td>
+			</tr>
+
+		</table>
+
+	 </div>
+
+	 <!-- Career Objective Description-->
+	 <div class="border padding">
+
+	 	<!-- career objective header -->
+		<h5>Career Objectives</h5>
+
+		<table border="0" cellpadding="6">
+			<!-- career objecte description -->
+			<tr>
+				<td><span id="co_objective"></span></td>
+			</tr>
+
+		</table>
+
+	 </div>
+
+
+
+	 <!-- academic -->
+	 <div class="border padding">
+	 	
+	 	<!-- academic header -->
+	 	<h5>Academic Qualification</h5>
+
+		<table id="academic"  border="1" cellpadding="6">
+			
+			<!-- field name -->
+			<thead>
+				<tr style="background-color:lavenderblush;">
+					<th>Degree</th>
+					<th>Institute/College</th>
+					<th>Year</th>
+					<th>Marks</th>
+				</tr>
+			</thead>
+			
+			<!-- field values body (n-rows) -->
+			<tbody>
+				<tr>
+					<td id ="aq_degree">value</td>
+					<td id ="aq_institute">value</td>
+					<td id ="aq_year">value</td>
+					<td><span id ="aq_marks">value</span> <span id ="aq_marks_type">value</span></td>
+				</tr>
+			<tbody>
+
+		</table>
+
+	 </div>
+ 
+ 	<!-- professional qualification -->
+	<div class="border padding">
+
+		<!-- professional header -->
+		<h5>Professional Qualification</h5>
+
+		<table id="pro" border="1" cellpadding="6" >
+
+			<!-- head name -->
+			<thead>
+				<tr style="background-color:lavenderblush;">
+					<th>Course</th>
+					<th>Institute/College</th>
+					<th>Year</th>
+					<th>Marks</th>
+				</tr>
+			</thead>
+
+			<!-- body values (n-rows) -->
+			<tbody>
+				<tr>
+					<td id ="pq_course">value</td>
+					<td id ="pq_institute">value</td>
+					<td id ="pq_year">value</td>
+					<td><span id ="pq_marks">value</span> <span id ="aq_marks_type">value</span></td>
+				</tr>
+			<tbody>
+
+		</table>
+
+	 </div>
+ 
+
+	<!-- project -->
+	<div class="border padding" >
+
+		<!-- project header -->
+		<h5>Project Experience</h5>
+
+		<table id="project" border="0" cellpadding="6">
+
+			<!-- title -->
+			<tr>
+				<th>Title</th>
+				<td> : &nbsp;<span id="proj_title">value</span></td>
+			</tr>
+			<!-- description -->
+			<tr>
+				<th>Description</th>
+				<td> : &nbsp;<span id="proj_desc">value</span></td>
+			</tr>
+			<!-- duration -->
+			<tr>
+				<th>Duration</th>
+				<td> : &nbsp;From : <span id="proj_duration_from">value</span>
+					&nbsp;To : <span id="proj_duration_to">value</span>
+				</td>
+			</tr>
+			<!-- role -->
+			<tr>
+				<th>Role</th>
+				<td> : &nbsp;<span id="proj_role">value</span></td>
+			</tr>
+			<!-- team size -->
+			<tr>
+				<th>Team Size</th>
+				<td> : &nbsp;<span id="proj_team_size">value</span></td>
+			</tr>
+			<!-- organizer -->
+			<tr>
+				<th>Organizer</th>
+				<td> : &nbsp;<span id="proj_organizer">value</span></td>
+			</tr>
+			<!-- location -->
+			<tr>
+				<th>Location</th>
+				<td> : &nbsp;<span id="proj_location">value</span></td>
+			</tr>
+
+		</table>
+
+	 </div>
+
+
+	 <!-- internship -->
+	<div class="border padding" >
+
+		<!-- internship header -->
+		<h5>Internship</h5>
+
+		<table id="intern" border="0" cellpadding="6">
+
+			<!-- company -->
+			<tr>
+				<th>Company</th>
+				<td> : &nbsp;<span id="intern_company">value</span></td>
+			</tr>
+			<!-- role -->
+			<tr>
+				<th>Role</th>
+				<td> : &nbsp;<span id="intern_role">value</span></td>
+			</tr>			
+			<!-- duration -->
+			<tr>
+				<th>Duration</th>
+				<td> : &nbsp;From : <span id="intern_duration_from">value</span>
+					&nbsp;To : <span id="intern_duration_to">value</span>
+				</td>
+			</tr>
+			<!-- location -->
+			<tr>
+				<th>Location</th>
+				<td> : &nbsp;<span id="intern_location">value</span></td>
+			</tr>
+
+		</table>
+
+	 </div>
+
+
+	<!-- work experience -->
+	<div class="border padding">
+
+		<!-- work experience header -->
+		<h5>Work Experience</h5>
+
+		<table id="exp" border="1" cellpadding="6" >
+
+			<!-- field name -->
+			<thead>
+				<tr style="background-color:lavenderblush;">
+					<th>Company</th>
+					<th>Designation</th>
+					<th>Role</th>
+					<th>Duration</th>
+					<th>Location</th>
+				</tr>
+			</thead>
+
+			<!-- field values -->
+			<tbody>
+				<tr>
+					<td id="exp_company">Comapnay</td>
+					<td id="exp_designation">Designation</td>
+					<td id="exp_role">Role</td>
+					<td>From : <span id="exp_worked_from">value</span>
+							&nbsp;To : <span id="exp_worked_to">value</span>
+					</td>
+					<td id="exp_location">value</td>
+				</tr>
+			<tbody>
+
+		</table>
+
+	 </div>
+
+
+	 <!-- Achievement -->
+	 <div class="border padding">
+
+	 	<!-- achievement header -->
+		<h5>Achievement</h5>
+
+		<table id="achv" border="0" cellpadding="6">
+			<!-- achv -->
+			<tr>
+				<td id ="achv_achievement">value<span id="achv_achievement"></span></td>
+			</tr>
+			<tr>
+				<td id ="achv_achievement">value<span id="achv_achievement"></span></td>
+			</tr>
+
+		</table>
+
+	 </div>
+
+
+	<!-- Declaration (Career Objective) -->
+	 <div class="border padding">
+
+	 	<!-- declaration (CO) header -->
+		<h5>Declaration</h5>
+
+		<table id="declaration" border="0" cellpadding="6">
+			<!-- declaration -->
+			<tr>
+				<td>Declaration : &nbsp;<span id="co_declaration"></span></td>
+			</tr>
+			<!-- date -->
+			<tr>
+				<td>Date : &nbsp;<span id="co_date"></span></td>
+			</tr>
+			<tr>
+				<!-- place -->
+				<td>Place : &nbsp;<span id="co_place"></span></td>
+				<!-- signature -->
+				<td id="picSign_sign">value-sign</td>
+			</tr>
+				<!-- name footer -->
+			<tr>
+				<td id="bi_name">value-name</td>
+			</tr>
+
+		</table>
+
+	 </div>
+
+
+	<!-- Reference -->
+	 <div class="border padding">
+
+	 	<!-- reference header -->
+		<h5>Reference</h5>
+
+		<table id="ref" border="0" cellpadding="6">
+			<!-- name and employee id-->
+			<tr>
+				<td>Name</td>
+				<td>:&nbsp;<span id="ref_name">value</span>&nbsp;(Emp Id : <span id="ref_emp_id"></span>)</td>					
+			</tr>
+			<!-- designation -->
+			<tr>
+				<td>Designation</td>
+				<td>: &nbsp;<span id="ref_designation"></span></td>
+			</tr>
+			<!-- company -->
+			<tr>
+				<td>Company</td>
+				<td>: &nbsp;<span id="ref_company"></span></td>
+			</tr>
+			<!-- email -->
+			<tr>
+				<td>Email</td>
+				<td>: &nbsp;<span id="ref_email"></span></td>
+			</tr>
+			<!-- mobile -->
+			<tr>
+				<td>Mobile</td>
+				<td>: &nbsp;<span id="ref_mobile"></span></td>
+			</tr>
+
+		</table>
+
+	 </div>
+
+ 
+</div>
+
+
+
+</body>
+</html>

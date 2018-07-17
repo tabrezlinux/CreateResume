@@ -39,14 +39,23 @@ public class EditItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+<<<<<<< HEAD
 
         mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
 
 
+=======
+        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+>>>>>>> origin/master
     }
 
     @Override
     public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
         super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/master
 }
