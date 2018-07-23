@@ -1,5 +1,6 @@
 package com.example.tabrezahmad.createresume;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         Bundle b = getIntent().getExtras();
         if (b != null)
             NAME = b.getString("name");
+
 
         Toast.makeText(this, NAME, Toast.LENGTH_SHORT).show();
 
@@ -72,8 +75,8 @@ public class MainActivity extends AppCompatActivity
     private void setupFabAndToolbar() {
 
         // toolbar setup
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         // fab
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -214,11 +217,12 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
         alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Template Activity
-                Intent intent = new Intent(MainActivity.this, TemplateActivity.class);
+                Intent intent = new Intent(MainActivity.this, PreviewActivity.class);
                 //Bundle b = new Bundle();
                 //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
                 startActivity(intent);

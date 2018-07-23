@@ -4,8 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
+import android.print.PrintManager;
 import android.printservice.PrintService;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -21,13 +25,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
+
+import java.sql.Date;
 
 public class PreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static MyRoomDatabase mDatabase;     // room database
 
     public static Long BASIC_INFO_FOREIGN_KEY_ID = null;
+    WebView wv_templates;
 
     // ON CREATE ACTIVITY --------------------------------------------------------------------------
     @Override
@@ -35,7 +43,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
         // SET CONTENT LAYOUT
-        setContentView(R.layout.activity_preview);
+        setContentView(R.layout.activity_template);
 
         // INIT DATABASE
         //setupDatabase();
@@ -76,16 +84,16 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
         // TOOLBAR AND FAB SETUP
         setupFabAndToolbar();
-        WebView wv_templates = findViewById(R.id.wv_templates);
+         wv_templates = findViewById(R.id.wv_templates);
 
         wv_templates.setWebChromeClient(new WebChromeClient());
-        wv_templates.setWebViewClient(new WebViewClient());
+        wv_templates.setWebViewClient(new MyWebViewClient());
         wv_templates.getSettings().setJavaScriptEnabled(true);              // enable javascript support
         wv_templates.getSettings().setDomStorageEnabled(true);              // for javascript to run
         wv_templates.getSettings().setSupportZoom(true);                    // zoomable
-        wv_templates.getSettings().setAllowFileAccess(true);                // to acces external data, other than app assets
-
+        wv_templates.getSettings().setAllowFileAccess(true);                // to access external data, other than app assets
         //wv_templates.getSettings().setDefaultTextEncodingName("utf-8");     //
+
         {
             //wv_templates.setDrawingCacheBackgroundColor(Color.WHITE);
             //wv_templates.setDrawingCacheEnabled(true);
@@ -99,29 +107,53 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             //wv_templates.destroyDrawingCache();
         }
 
-        //JSObjectModel jsObjectModel = new JSObjectModel("Musharraf","jan 1, 2000");
+        BasicInfo basicInfo = new BasicInfo();
+        basicInfo.name = "Musharraf Alam";
+        basicInfo.dob = new Date(System.currentTimeMillis());
+        basicInfo.father = "Mansoor Alam";
+        basicInfo.gender = "Male";
+        basicInfo.marital = "Unmarried";
+        basicInfo.email = "someone.one@gmail.com";
+        basicInfo.mobile = new String[]{"996432452331"};
+        basicInfo.address = "Road no.5, local street, patna-80000, bihar, india";
 
-        //wv_templates.addJavascriptInterface(jsObjectModel,"jObj");
-        //wv_templates.loadUrl("file:///android_asset/template.html");
-        wv_templates.loadUrl("javascript:alert('this is an alert');");
+
+        wv_templates.addJavascriptInterface(basicInfo, "jObj");
+        wv_templates.loadUrl("file:///android_asset/template.html");
+
+        //printdoc();
+        //wv_templates.loadUrl("javascript:alert('this is an alert')");
+        //wv_templates.evaluateJavascript("alert('loaded');",null);
 
 
     }
 
-    class MyChromeClient extends WebChromeClient{
-        public MyChromeClient() {
-            super();
+    private void printdoc() {
+
+        PrintDocumentAdapter pda;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            pda = wv_templates.createPrintDocumentAdapter("hy");
+        } else {
+            pda = wv_templates.createPrintDocumentAdapter();
         }
 
-        @Override
-        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            return super.onJsAlert(view, url, message, result);
-        }
+        PrintManager pm = (PrintManager) getSystemService(PRINT_SERVICE);
+
+        PrintAttributes printAttributes = new PrintAttributes.Builder()
+                .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                .setResolution(new PrintAttributes.Resolution("high","default",600,600))
+                .build();
+
+        PrintJob pj = pm.print("doc",pda, printAttributes);
+        pm.getPrintJobs().add(pj);
+
     }
 
-    class MyWebClient extends WebViewClient {
 
-        public MyWebClient() {
+    class MyWebViewClient extends WebViewClient {
+
+        public MyWebViewClient() {
             super();
         }
 
@@ -132,7 +164,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            //view.loadUrl("javascript:alert('page loaded')");
+            //view.loadUrl("javascript:loaddata()");
             super.onPageFinished(view, url);
         }
 
@@ -150,6 +182,8 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         public void onScaleChanged(WebView view, float oldScale, float newScale) {
             super.onScaleChanged(view, oldScale, newScale);
         }
+
+
     }
 
 
@@ -189,14 +223,14 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                    generatePdf();
+                generatePdf();
                 break;
         }
     }
 
     private void generatePdf() {
-        @SuppressLint("ServiceCast") PrintService ps = (PrintService) getSystemService(Service.PRINT_SERVICE);
-        Toast.makeText(this,"Resume Generated",Toast.LENGTH_SHORT).show();
+       printdoc();
+        Toast.makeText(this, "Resume Generated", Toast.LENGTH_SHORT).show();
     }
 
 

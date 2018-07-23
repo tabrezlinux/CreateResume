@@ -176,7 +176,7 @@ public class FinalActivity extends AppCompatActivity
                     //Toast.makeText(this,"CUR " + viewPager.getCurrentItem() + "COUNT " + TOTAL_TABS,Toast.LENGTH_SHORT).show();
                 } else {
                     // Preview Activity
-                    Intent intent = new Intent(FinalActivity.this, TemplateActivity.class);
+                    Intent intent = new Intent(FinalActivity.this, PreviewActivity.class);
                     //Bundle b = new Bundle();
                     //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
                     startActivity(intent);

@@ -37,9 +37,9 @@ dependencies {
     //noinspection GradleCompatible
     implementation "com.android.support:exifinterface:$support_version"
     // unit testing components
-    //testImplementation 'junit:junit:4.12'
-    //androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // room dependency
     def room_version = "1.1.0"
     // or, for latest rc, use "1.1.1-rc1"

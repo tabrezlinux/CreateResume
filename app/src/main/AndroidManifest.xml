@@ -4,8 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -24,6 +23,10 @@
         <!--main activity-->
         <activity
             android:name=".MainActivity"
+            android:rotationAnimation="rotate"
+            android:launchMode="singleTop"
+            android:immersive="true"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
@@ -47,7 +50,7 @@
 
         <!--preview activity-->
         <activity
-            android:name=".TemplateActivity"
+            android:name=".PreviewActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

@@ -11,30 +11,31 @@ import java.sql.Date;
 @Entity
 public class BasicInfo {
 
+    public static final String GENDER_MALE = "m";
+    public static final String GENDER_FEMALE = "f";
+    public static final String MARITAL_STATUS_MARRIED = "mr";
+    public static final String MARITAL_STATUS_UNMARRIED = "un";
+
+
     @PrimaryKey(autoGenerate = true)
     public Long uid;
 
-    @NonNull
     @ColumnInfo(name="name")
     public String name;
 
-    @NonNull
     @ColumnInfo(name = "dob")
-    public Date date_of_birth;
+    public Date dob;
 
-    @NonNull
     @ColumnInfo(name = "father")
-    public String father_name;
+    public String father;
 
     // M = Male, F = Female
-    @NonNull
     @ColumnInfo(name = "gender")
     public String gender;
 
     // UN = unmarried, MR = Married
-    @NonNull
     @ColumnInfo(name = "marital_status")
-    public String marital_status;
+    public String marital;
 
     @ColumnInfo(name = "nationality")
     public String nationality;
@@ -46,23 +47,19 @@ public class BasicInfo {
     public String passport;
 
     @ColumnInfo(name = "linked_in")
-    public String linked_in;
+    public String linkedIn;
 
     @ColumnInfo(name = "website")
     public String website;
 
-    @NonNull
     @ColumnInfo(name = "email")
     public String email;
 
-    @NonNull
     @ColumnInfo(name = "mobile")
     public String[] mobile;
 
-    @NonNull
     @ColumnInfo(name = "address")
     public String address;
-
 
     @JavascriptInterface
     public Long getUid() {
@@ -70,33 +67,28 @@ public class BasicInfo {
     }
 
     @JavascriptInterface
-    @NonNull
     public String getName() {
         return name;
     }
 
     @JavascriptInterface
-    @NonNull
-    public Date getDate_of_birth() {
-        return date_of_birth;
+    public String getDob() {
+        return dob.toString();
     }
 
     @JavascriptInterface
-    @NonNull
-    public String getFather_name() {
-        return father_name;
+    public String getFather() {
+        return father;
     }
 
     @JavascriptInterface
-    @NonNull
     public String getGender() {
         return gender;
     }
 
     @JavascriptInterface
-    @NonNull
-    public String getMarital_status() {
-        return marital_status;
+    public String getMarital() {
+        return marital;
     }
 
     @JavascriptInterface
@@ -115,8 +107,8 @@ public class BasicInfo {
     }
 
     @JavascriptInterface
-    public String getLinked_in() {
-        return linked_in;
+    public String getLinkedIn() {
+        return linkedIn;
     }
 
     @JavascriptInterface
@@ -125,19 +117,16 @@ public class BasicInfo {
     }
 
     @JavascriptInterface
-    @NonNull
     public String getEmail() {
         return email;
     }
 
     @JavascriptInterface
-    @NonNull
     public String[] getMobile() {
         return mobile;
     }
 
     @JavascriptInterface
-    @NonNull
     public String getAddress() {
         return address;
     }

@@ -42,10 +42,17 @@ public class AcademicQualificationFrag extends Fragment implements View.OnClickL
 
     View root;
 
+    int layout_list = R.layout.qualification_academic_list;
+    int layout_new_item = R.layout.qualification_academic;
+
+    LayoutInflater inflater;
+    ViewGroup container;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        this.inflater = inflater;
+        this.container = container;
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.qualification_academic, container, false);
         return root;
@@ -72,8 +79,8 @@ public class AcademicQualificationFrag extends Fragment implements View.OnClickL
         QUALIFICATION_OBJ = new AcademicQualification();
 
         // SET BUTTONS
-        //FloatingActionButton fab = root.findViewById(R.id.fab);
-        //fab.setOnClickListener(this);
+        FloatingActionButton fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         // SETUP FIELDS
         et_course = root.findViewById(R.id.course);
@@ -276,8 +283,8 @@ public class AcademicQualificationFrag extends Fragment implements View.OnClickL
         switch (v.getId()) {
 
             case R.id.fab:
-                saveFormData();
-                Toast.makeText(getContext(), "click received at" + getClass().getName(), Toast.LENGTH_SHORT).show();
+                //saveFormData();
+                //Toast.makeText(getContext(), "click received at" + getClass().getTv_name(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.et_year:
                 showDatePickerDialog(et_year);

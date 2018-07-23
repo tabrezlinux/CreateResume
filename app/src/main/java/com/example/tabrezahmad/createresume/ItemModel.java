@@ -1,11 +1,11 @@
 package com.example.tabrezahmad.createresume;
 
-public class ResumeListModels {
+public class ItemModel {
 
     private String name;
     private String imagePath;
 
-    public ResumeListModels(String name, String imagePath) {
+    public ItemModel(String name, String imagePath) {
         this.name = name;
         this.imagePath = imagePath;
     }
@@ -25,4 +25,5 @@ public class ResumeListModels {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+
 }

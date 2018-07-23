@@ -61,11 +61,6 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
             tl_mobile,
             tl_address;
 
-    private final String GENDER_MALE = "M";
-    private final String GENDER_FEMALE = "F";
-    private final String STATUS_MARRIED = "MR";
-    private final String STATUS_UNMARRIED = "UN";
-
     private BasicInfo BASIC_INFO_OBJ;
 
     View root;
@@ -98,6 +93,7 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
     @Override
     public void onPause() {
         Toast.makeText(getContext(), "Paused Frag", Toast.LENGTH_SHORT).show();
+        saveFormData();
         super.onPause();
     }
 
@@ -148,13 +144,13 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
         rg_gender.setOnCheckedChangeListener(this);
 
         // Set Gender by default
-        Gender = rg_gender.getCheckedRadioButtonId() == R.id.radio_male ? GENDER_MALE : GENDER_FEMALE;
+        Gender = rg_gender.getCheckedRadioButtonId() == R.id.radio_male ? BasicInfo.GENDER_MALE : BasicInfo.GENDER_FEMALE;
 
         // Marital Status OnCheck
         rg_marital_status.setOnCheckedChangeListener(this);
 
         // Set Status by default
-        Marital_Status = rg_marital_status.getCheckedRadioButtonId() == R.id.radio_unmarried ? STATUS_UNMARRIED : STATUS_MARRIED;
+        Marital_Status = rg_marital_status.getCheckedRadioButtonId() == R.id.radio_unmarried ? BasicInfo.MARITAL_STATUS_UNMARRIED : BasicInfo.MARITAL_STATUS_MARRIED;
 
 
         // ET Layouts
@@ -274,12 +270,12 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
 
         // set date
         Date date = new Date(System.currentTimeMillis());
-        BASIC_INFO_OBJ.date_of_birth = date;
+        BASIC_INFO_OBJ.dob = date;
 
         // parse date
         try {
             date = new Date(Long.parseLong(dob.getHint().toString()));
-            BASIC_INFO_OBJ.date_of_birth = date;
+            BASIC_INFO_OBJ.dob = date;
             Log.d("Date", date.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -287,13 +283,13 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
         }
 
         // set father name
-        BASIC_INFO_OBJ.father_name = father_name.getText().toString();
+        BASIC_INFO_OBJ.father = father_name.getText().toString();
 
         // set gender
         BASIC_INFO_OBJ.gender = Gender;
 
         // set status
-        BASIC_INFO_OBJ.marital_status = Marital_Status;
+        BASIC_INFO_OBJ.marital = Marital_Status;
 
         // set language (split multiple keywords)
         String lang = language.getText().toString();
@@ -306,7 +302,7 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
         BASIC_INFO_OBJ.passport = passport.getText().toString();
 
         // set linkedIn id
-        BASIC_INFO_OBJ.linked_in = linkedIn.getText().toString();
+        BASIC_INFO_OBJ.linkedIn = linkedIn.getText().toString();
 
         // set website address
         BASIC_INFO_OBJ.website = website.getText().toString();
@@ -424,10 +420,10 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
             case R.id.rg_gender:
                 switch (checkedId) {
                     case R.id.radio_male:           // set Gender MALE
-                        Gender = GENDER_MALE;
+                        Gender = BasicInfo.GENDER_MALE;
                         break;
                     case R.id.radio_female:         // set Gender FEMALE
-                        Gender = GENDER_FEMALE;
+                        Gender = BasicInfo.GENDER_FEMALE;
                         break;
                 }
                 break;
@@ -436,10 +432,10 @@ public class BasicInfoFrag extends Fragment implements View.OnClickListener, OnD
             case R.id.rg_marital_status:
                 switch (checkedId) {
                     case R.id.radio_married:
-                        Marital_Status = STATUS_MARRIED;
+                        Marital_Status = BasicInfo.MARITAL_STATUS_MARRIED;
                         break;
                     case R.id.radio_unmarried:
-                        Marital_Status = STATUS_UNMARRIED;
+                        Marital_Status = BasicInfo.MARITAL_STATUS_UNMARRIED;
                         break;
                 }
                 break;

@@ -1,5 +1,6 @@
 package com.example.tabrezahmad.createresume.database;
 
+import android.support.annotation.Nullable;
 import android.widget.EditText;
 
 import java.security.cert.TrustAnchor;
@@ -28,6 +29,7 @@ public class FormValidator {
     }
 
     // create date YYYY-MM-DD
+    @Nullable
     public static Date createDate(String object) {
 
         if (isNull(object))
@@ -81,7 +83,8 @@ public class FormValidator {
         if (isNull(object))
             return false;
 
-        return true;
+        String regex = "[a-z A-Z]+"; // www.a.a
+        return object.matches(regex);
     }
 
     public static boolean isNumber(String object) {
@@ -95,7 +98,8 @@ public class FormValidator {
         if (isNull(object))
             return false;
 
-        return object.matches("[s+]@[s+][.]s+");
+        String regex = "[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.][a-zA-Z]+"; // someone@gmail.com
+        return object.matches(regex);
     }
 
     public static boolean isWebUrl(String object) {
@@ -117,7 +121,7 @@ public class FormValidator {
         if (isNull(object))
             return false;
 
-        return (object.length() == size) ? true : false;
+        return (object.trim().length() == size) ? true : false;
 
     }
 

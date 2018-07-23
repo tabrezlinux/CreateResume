@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -35,10 +37,19 @@ import java.util.Calendar;
 
 public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
 
-    private Button bt_upload_picture, bt_upload_sign;
-    private ImageView iv_picture, iv_sign;
-    private static final String IMAGE_DIRECTORY = "/demonuts";
-    private final int IMAGE_REQUEST_CODE_GALLERY = 1, IMAGE_REQUEST_CODE_CAMERA = 2, SIGN_REQUEST_CODE_GALLERY = 3, SIGN_REQUEST_CODE_CAMERA = 4;
+    private Button bt_photo_pick, bt_sign_pick;
+    private ImageView iv_photo, iv_sign;
+    private final int
+            REQUEST_CODE_PHOTO_FROM_GALLERY = 1,
+            REQUEST_CODE_PHOTO_FROM_CAMERA = 2,
+            REQUEST_CODE_SIGN_FROM_GALLERY = 3,
+            REQUEST_CODE_SIGN_FROM_CAMERA = 4;
+
+    private static final String IMAGE_DIRECTORY = "/demonuts";  // FOLDER NAME
+    private static String PREFIX_PHOTO = "PHOTO";               // e.g. PHOTO_xxx.jpg
+    private static String PREFIX_SIGN = "SIGN";                 // e.g. SIGN_xxx.jpg
+    File camera_photo_file_path = null;
+    File camera_sign_file_path = null;
 
 
     @Override
@@ -51,24 +62,96 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bt_upload_picture = (Button) view.findViewById(R.id.bt_upload_picture);
-        iv_picture = (ImageView) view.findViewById(R.id.iv_picture);
-        bt_upload_sign = (Button) view.findViewById(R.id.bt_upload_sign);
-        iv_sign = (ImageView) view.findViewById(R.id.iv_sign);
 
-        bt_upload_picture.setOnClickListener(this);
-        iv_picture.setOnClickListener(this);
+        bt_photo_pick = view.findViewById(R.id.bt_upload_picture);
+        iv_photo = view.findViewById(R.id.iv_picture);
+        bt_sign_pick = view.findViewById(R.id.bt_upload_sign);
+        iv_sign = view.findViewById(R.id.iv_sign);
 
-        bt_upload_sign.setOnClickListener(this);
-        iv_sign.setOnClickListener(this);
+        bt_photo_pick.setOnClickListener(this);
+        bt_sign_pick.setOnClickListener(this);
 
     }
 
-    private void showUploadSignDialog(){
+
+    // PHOTO DIALOG, CHOOSE AND SAVE
+    private void pickSignDialog() {
+
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
 
         pictureDialog.setTitle("Select Action");
+        String[] pictureDialogItems = {
+                "Select sign from gallery",
+                "Capture sign from camera"};
 
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                chooseSignFrom(0);         // 0 = gallery
+                                break;
+                            case 1:
+                                chooseSignFrom(1);          // 1 = camera
+                                break;
+                        }
+                    }
+                });
+
+        pictureDialog.show();
+
+    }
+
+    // choose
+    public void chooseSignFrom(int From) {
+
+        Intent intent = null;
+
+        switch (From) {
+
+            // 0 = from gallery
+            case 0:
+                intent = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CODE_SIGN_FROM_GALLERY);
+                break;
+
+            // 1 = from camera
+            case 1:
+
+                // create photo destination file path
+                camera_sign_file_path = createFileOnExtStorage(PREFIX_SIGN);
+
+                // create intent with extra, destination path data
+                intent = new Intent(
+                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);                  // action for camera
+
+                // put destination path data
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(camera_sign_file_path));   // where to save
+
+                // if application package has no camera permission
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    // then ask permission
+                    askCameraPermission(intent);
+                    // else use camera
+                } else {
+                    startActivityForResult(intent, REQUEST_CODE_SIGN_FROM_CAMERA);
+                }
+
+                break;
+        }
+    }
+
+
+
+    // PHOTO DIALOG, CHOOSE AND SAVE
+    private void pickPhotoDialog() {
+
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
+
+        pictureDialog.setTitle("Select Action");
         String[] pictureDialogItems = {
                 "Select photo from gallery",
                 "Capture photo from camera"};
@@ -79,10 +162,10 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                chooseSignFromGallary();
+                                choosePhotoFrom(0);         // 0 = gallery
                                 break;
                             case 1:
-                                takeSignFromCamera();
+                                choosePhotoFrom(1);      // 1 = camera
                                 break;
                         }
                     }
@@ -92,126 +175,79 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
 
     }
 
-    public void chooseSignFromGallary() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+    // choose
+    public void choosePhotoFrom(int From) {
 
-        startActivityForResult(galleryIntent, SIGN_REQUEST_CODE_GALLERY);
+        Intent intent = null;
+
+        switch (From) {
+
+            // 0 = from gallery
+            case 0:
+                intent = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CODE_PHOTO_FROM_GALLERY);
+                break;
+
+            // 1 = from camera
+            case 1:
+
+                // create photo destination file path
+                camera_photo_file_path = createFileOnExtStorage(PREFIX_PHOTO);
+
+                // create intent with extra, destination path data
+                intent = new Intent(
+                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);                  // action for camera
+
+                // put destination path data
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(camera_photo_file_path));   // where to save
+
+                // if application package has no camera permission
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    // then ask permission
+                    askCameraPermission(intent);
+                    // else use camera
+                } else {
+                    startActivityForResult(intent, REQUEST_CODE_PHOTO_FROM_CAMERA);
+                }
+
+                break;
+        }
     }
 
-    private void takeSignFromCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-        // check permission
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+    // create file for SIGN and PHOTO --------------------------------------------------------------
+    @NonNull
+    private File createFileOnExtStorage(String file_prefix) {
 
-            // Permission is not granted
-            // ask for permission
-            askCameraPermission(intent);
-
+        // 1. build directory, if needed. -- optional
+        File directory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        if (!directory.exists()) {
+            directory.mkdirs();
+            Log.e("Directory", "directory created : " + directory.getAbsolutePath());
         } else {
-            startActivityForResult(intent, SIGN_REQUEST_CODE_CAMERA);
-        }
-    }
-
-
-    public String saveSignImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
+            Log.e("Directory", "Error creating directory, already exists : " + directory.getAbsolutePath());
         }
 
+        // 2. create file
+        File f = null;
         try {
-            File f = new File(wallpaperDirectory, "Resume_" + Calendar.getInstance().getTimeInMillis() + ".jpg");
+            f = new File(directory, file_prefix + "_" + Calendar.getInstance().getTimeInMillis() + ".jpg");
             f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(getContext(),
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
-            return f.getAbsolutePath();
+            Log.e("File", "File is created : " + f.getAbsolutePath());
         } catch (IOException e1) {
             e1.printStackTrace();
+            Log.e("File", "Error creating file : " + f.getAbsolutePath());
         }
-        return "";
+
+        return f;
     }
 
 
-    private void showUploadPictureDialog() {
-
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
-//        pictureDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-//        pictureDialog.setPositiveButton("Pick", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
-        pictureDialog.setTitle("Select Action");
-
-        String[] pictureDialogItems = {
-                "Select photo from gallery",
-                "Capture photo from camera"};
-
-        pictureDialog.setItems(pictureDialogItems,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                choosePhotoFromGallary();
-                                break;
-                            case 1:
-                                takePhotoFromCamera();
-                                break;
-                        }
-                    }
-                });
-
-        pictureDialog.show();
-
-    }
-
-    public void choosePhotoFromGallary() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        startActivityForResult(galleryIntent, IMAGE_REQUEST_CODE_GALLERY);
-    }
-
-    private void takePhotoFromCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // check permission
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // ask for permission
-            askCameraPermission(intent);
-
-        } else {
-            startActivityForResult(intent, IMAGE_REQUEST_CODE_CAMERA);
-        }
-    }
-
+    // ASK FOR CAMERA PERMISSION -------------------------------------------------------------------
     private void askCameraPermission(Intent intent) {
+
         // should ask for permisssion?
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                 Manifest.permission.CAMERA)) {
@@ -219,117 +255,93 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
             //ask for CAMERA permission
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.CAMERA},
-                    IMAGE_REQUEST_CODE_CAMERA);
+                    REQUEST_CODE_PHOTO_FROM_CAMERA);
 
 
         } else {
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.CAMERA},
-                    IMAGE_REQUEST_CODE_CAMERA);
+                    REQUEST_CODE_PHOTO_FROM_CAMERA);
         }
 
     }
 
+
+    // ON ACTIVITY RESULT --------------------------------------------------------------------------
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case IMAGE_REQUEST_CODE_GALLERY:
+
+        // IF REQUEST_CODE IS
+        switch (requestCode) {
+
+            case REQUEST_CODE_PHOTO_FROM_GALLERY:
+                // if RESULT_OK
+                if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
-                        Uri contentURI = data.getData();
-//                        try {
-
-
                         Picasso.with(getContext())
-                                .load(contentURI)
+                                .load(data.getData())
                                 .transform(new CropSquareTransformation())
-                                .into(iv_picture);
-
-//                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
-////                            String path = saveImage(bitmap);
-////                            Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
-//                            iv_picture.setImageBitmap(bitmap);
-
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-////                            Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
-//                        }
+                                .into(iv_photo);
                     }
-                    break;
-                case IMAGE_REQUEST_CODE_CAMERA:
-                    Uri cameraUri = data.getData();
-                    Picasso.with(getContext())
-                            .load(cameraUri)
-                            .into(iv_picture);
-                    Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-                    iv_picture.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-//                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
-                    break;
+                }
+                break;
 
-                case SIGN_REQUEST_CODE_GALLERY:
+            case REQUEST_CODE_SIGN_FROM_GALLERY:
+                // if RESULT_OK
+                if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
                         Uri contentURI = data.getData();
-//                        try {
-
-
                         Picasso.with(getContext())
                                 .load(contentURI)
                                 .transform(new CropSquareTransformation())
                                 .into(iv_sign);
                     }
-                    break;
-                case SIGN_REQUEST_CODE_CAMERA:
-                    Uri signCameraUri = data.getData();
+                }
+                break;
+
+            case REQUEST_CODE_PHOTO_FROM_CAMERA:
+                // camera don't return data if EXTRA_OUTPUT intent is set
+                // load the thumbnail if RESULT_OK
+                if (resultCode == Activity.RESULT_OK) {
                     Picasso.with(getContext())
-                            .load(signCameraUri)
+                            .load(camera_photo_file_path)
+                            .transform(new CropSquareTransformation())
+                            .into(iv_photo);
+                } else {
+                    boolean deleted = camera_photo_file_path.delete();
+                    Toast.makeText(getContext(), "Failed to save photo", Toast.LENGTH_SHORT).show();
+                    Log.e("FILE_PHOTO", String.valueOf(deleted) + " was unable to save");
+                }
+                break;
+
+            case REQUEST_CODE_SIGN_FROM_CAMERA:
+                // camera don't return data if EXTRA_OUTPUT intent is set
+                // load the thumbnail if RESULT_OK
+                if (resultCode == Activity.RESULT_OK) {
+                    Picasso.with(getContext())
+                            .load(camera_sign_file_path)
+                            .transform(new CropSquareTransformation())
                             .into(iv_sign);
-                    Bitmap signThumbnail = (Bitmap) data.getExtras().get("data");
-                    iv_sign.setImageBitmap(signThumbnail);
-                    saveImage(signThumbnail);
-//                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-
-
+                }else {
+                    boolean deleted = camera_sign_file_path.delete();
+                    Toast.makeText(getContext(), "Failed to save sign", Toast.LENGTH_SHORT).show();
+                    Log.e("FILE_SIGN", String.valueOf(deleted) + " was unable to save");
+                }
+                break;
         }
+
     }
 
-    public String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
 
-        try {
-            File f = new File(wallpaperDirectory, "Resume_" + Calendar.getInstance().getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(getContext(),
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
-            return f.getAbsolutePath();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return "";
-    }
-
+    // picasso transform
     public class CropSquareTransformation implements Transformation {
-        @Override public Bitmap transform(Bitmap source) {
+        @Override
+        public Bitmap transform(Bitmap source) {
 
-            Log.d("bitmap size original", String.valueOf(source.getHeight()) + " " +String.valueOf(source.getWidth()));
+            Log.d("bitmap size original", String.valueOf(source.getHeight()) + " " + String.valueOf(source.getWidth()));
 
             int size = Math.min(source.getWidth(), source.getHeight());
 
@@ -338,7 +350,7 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
             int x = (source.getWidth() - size) / 2;
             int y = (source.getHeight() - size) / 2;
 
-            Log.d("bitmap size after", String.valueOf(x +" " + y));
+            Log.d("bitmap size after", String.valueOf(x + " " + y));
 
             Bitmap result = Bitmap.createBitmap(source, x, y, size, size);
             if (result != source) {
@@ -347,26 +359,23 @@ public class PhotoAndSignFrag extends Fragment implements View.OnClickListener {
             return result;
         }
 
-        @Override public String key() { return "square()"; }
+        @Override
+        public String key() {
+            return "square()";
+        }
     }
 
+
+    // ON CLICK
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.bt_upload_picture:
-                showUploadPictureDialog();
-                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.iv_picture:
-                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
+                pickPhotoDialog();
                 break;
             case R.id.bt_upload_sign:
-                showUploadSignDialog();
-                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.iv_sign:
-                Toast.makeText(getContext(), "Picture clicked", Toast.LENGTH_SHORT).show();
+                pickSignDialog();
                 break;
         }
     }

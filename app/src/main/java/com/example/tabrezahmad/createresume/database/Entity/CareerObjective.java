@@ -19,7 +19,7 @@ public class CareerObjective {
     @ColumnInfo(name="objective")
     public String objective;
 
-    @ColumnInfo(name="decleration")
+    @ColumnInfo(name="declaration")
     public String decleration;
 
     @ColumnInfo(name="date")

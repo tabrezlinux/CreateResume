@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.printservice.PrintService;
 import android.support.design.widget.FloatingActionButton;
@@ -20,12 +21,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 
-import java.sql.Date;
-
-public class TemplateActivity extends AppCompatActivity implements View.OnClickListener {
+public class TemplateChoiceActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static MyRoomDatabase mDatabase;     // room database
 
@@ -37,7 +35,7 @@ public class TemplateActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
 
         // SET CONTENT LAYOUT
-        setContentView(R.layout.activity_template);
+        setContentView(R.layout.activity_preview);
 
         // INIT DATABASE
         //setupDatabase();
@@ -86,8 +84,8 @@ public class TemplateActivity extends AppCompatActivity implements View.OnClickL
         wv_templates.getSettings().setDomStorageEnabled(true);              // for javascript to run
         wv_templates.getSettings().setSupportZoom(true);                    // zoomable
         wv_templates.getSettings().setAllowFileAccess(true);                // to acces external data, other than app assets
-        //wv_templates.getSettings().setDefaultTextEncodingName("utf-8");     //
 
+        //wv_templates.getSettings().setDefaultTextEncodingName("utf-8");     //
         {
             //wv_templates.setDrawingCacheBackgroundColor(Color.WHITE);
             //wv_templates.setDrawingCacheEnabled(true);
@@ -101,23 +99,11 @@ public class TemplateActivity extends AppCompatActivity implements View.OnClickL
             //wv_templates.destroyDrawingCache();
         }
 
-        JSObjectModel jsObjectModel = new JSObjectModel("Musharraf","jan 1, 2000");
+        //JSObjectModel jsObjectModel = new JSObjectModel("Musharraf","jan 1, 2000");
 
-        BasicInfo basicInfo = new BasicInfo();
-        basicInfo.name = "Musharraf Alam";
-        basicInfo.date_of_birth = new Date(System.currentTimeMillis());
-        basicInfo.father_name = "Mansoor Alam";
-        basicInfo.gender = "Male";
-        basicInfo.marital_status = "Unmarried";
-        basicInfo.email = "someone.one@gmail.com";
-        basicInfo.mobile =new String[]{"996432452331"};
-        basicInfo.address = "Road no.5, local street, patna-80000, bihar, india";
-
-
-        wv_templates.addJavascriptInterface(basicInfo,"jObj");
-        wv_templates.loadUrl("file:///android_asset/template.html");
-        //wv_templates.loadUrl("javascript:alert('this is an alert')");
-        //wv_templates.evaluateJavascript("alert('loaded');",null);
+        //wv_templates.addJavascriptInterface(jsObjectModel,"jObj");
+        //wv_templates.loadUrl("file:///android_asset/template.html");
+        wv_templates.loadUrl("javascript:alert('this is an alert');");
 
 
     }
@@ -146,7 +132,7 @@ public class TemplateActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            //view.loadUrl("javascript:loaddata()");
+            //view.loadUrl("javascript:alert('page loaded')");
             super.onPageFinished(view, url);
         }
 
@@ -213,28 +199,6 @@ public class TemplateActivity extends AppCompatActivity implements View.OnClickL
         Toast.makeText(this,"Resume Generated",Toast.LENGTH_SHORT).show();
     }
 
-
-    class JSObjectModel {
-
-
-        public String name;
-        public String dob;
-
-        JSObjectModel(String name, String dob){
-            this.name = name;
-            this.dob = dob;
-        }
-
-        @JavascriptInterface
-        public String getName() {
-            return name;
-        }
-
-        @JavascriptInterface
-        public String getDob() {
-            return dob;
-        }
-    }
 
 }
 
