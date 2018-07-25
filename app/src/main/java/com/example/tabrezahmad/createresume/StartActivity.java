@@ -1,19 +1,26 @@
 package com.example.tabrezahmad.createresume;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaMetadataRetriever;
+import android.media.audiofx.AudioEffect;
+import android.media.effect.Effect;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.service.autofill.Dataset;
+import android.os.PowerManager;
+import android.service.carrier.CarrierService;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +29,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.telephony.CarrierConfigManager;
+import android.view.ContextMenu;
+import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +40,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,9 +49,11 @@ import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.security.Permission;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import javax.net.ssl.HostnameVerifier;
 
 /**
  * Created by Me on 11-Jul-18.
@@ -50,6 +64,7 @@ public class StartActivity extends AppCompatActivity
 
     public static MyRoomDatabase mDatabase;             // room database
     RecyclerView mRecyclerView;
+    RVadapter adapter;
 
 
     @Override
@@ -111,28 +126,37 @@ public class StartActivity extends AppCompatActivity
         mRecyclerView = findViewById(R.id.rv_resume_list);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setClipToPadding(true);
 
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+                Toast.makeText(StartActivity.this, "touched", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         DatasetAsysTask datasetAsync = new DatasetAsysTask();
         datasetAsync.execute();
 
+        // ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(itemAdapter);
+
         // itemTouchHelper
-//      ItemTouchHelper touchHelper = null;
+        // ItemTouchHelper touchHelper = touchHelper = new ItemTouchHelper(callback);;
 
-//      ItemAdapter itemAdapter = new ItemAdapter(this, models, new OnStartDragListener() {
-//            @Override
-//            public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-//                //TouchHelper.startDrag(viewHolder);
-//            }
-//        });
+        // ItemAdapter itemAdapter = new ItemAdapter(this, models, );
 
-//      ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(itemAdapter);
-//      touchHelper = new ItemTouchHelper(callback);
-
-
-//      touchHelper.attachToRecyclerView(mRecyclerView);
-//      mRecyclerView.setAdapter(itemAdapter);
+        // touchHelper.attachToRecyclerView(mRecyclerView);
+        // mRecyclerView.setAdapter(itemAdapter);.
 
 
     }
@@ -148,6 +172,17 @@ public class StartActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
 
     // OPTIONS MENU --------------------------------------------------------------------------------
     @Override
@@ -226,6 +261,7 @@ public class StartActivity extends AppCompatActivity
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 AlertDialog.Builder ab = new AlertDialog.Builder(StartActivity.this);
                 ab.setMessage("Are you sure?");
                 ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -242,22 +278,29 @@ public class StartActivity extends AppCompatActivity
                     }
                 });
 
-                AlertDialog alert = ab.create();
-                alert.show();
+                if (!et_name.getText().toString().trim().isEmpty()) {
+                    AlertDialog alert = ab.create();
+                    alert.show();
+                } else {
+                    userDialog.dismiss();
+                }
+
+
             }
         });
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                //Bundle b = new Bundle();
-                //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
-                String NAME = et_name.getText().toString();
-                //Toast.makeText(StartActivity.this,NAME,Toast.LENGTH_SHORT).show();
-                intent.putExtra("name", NAME);
-                startActivity(intent);
-                userDialog.dismiss();
+                String NAME = et_name.getText().toString().trim();
+                if (NAME.isEmpty()) {
+                    Toast.makeText(StartActivity.this, "Name is required", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                    intent.putExtra("name", NAME);
+                    userDialog.dismiss();
+                    startActivity(intent);
+                }
 
             }
         });
@@ -284,8 +327,8 @@ public class StartActivity extends AppCompatActivity
     }
 
 
-    // ASYNC DATASET FETCHING
-    class DatasetAsysTask extends AsyncTask<Void,Integer,List<BasicInfo>>{
+    // ASYNC DATASET FETCHING ----------------------------------------------------------------------
+    class DatasetAsysTask extends AsyncTask<Void, Integer, List<BasicInfo>> {
 
         @Override
         protected List<BasicInfo> doInBackground(Void... voids) {
@@ -295,21 +338,24 @@ public class StartActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(List<BasicInfo> basicInfos) {
-            super.onPostExecute(basicInfos);
-            // string list items
-            ArrayList<RVitemModel> dataset = new ArrayList<>();
-//            dataset.add(new RVitemModel("Musharraf Alam", "imagepath"));
-//            dataset.add(new RVitemModel("Tabrez Ahamd", "imagepath"));
-//            dataset.add(new RVitemModel("Aamir Eqbal", "imagepath"));
 
+            super.onPostExecute(basicInfos);
+
+            // ItemModel sets
+            ArrayList<RVitemModel> dataset = new ArrayList<>();
+
+            // loop for each BI sets
             for (BasicInfo bi : basicInfos) {
-                dataset.add(new RVitemModel(bi.name,"imagepath"));
+                dataset.add(new RVitemModel(bi.uid, bi.name, "imagepath"));
             }
 
-            Toast.makeText(StartActivity.this,String.valueOf(basicInfos.size()),Toast.LENGTH_SHORT).show();
+            Toast.makeText(StartActivity.this, String.valueOf(basicInfos.size()), Toast.LENGTH_SHORT).show();
 
-            RVadapter adapter = new RVadapter(StartActivity.this, dataset);
+            adapter = new RVadapter(StartActivity.this, dataset);
+            adapter.registerAdapterDataObserver(new RVadapterDataObserver());
             mRecyclerView.setAdapter(adapter);
+
+
         }
     }
 
@@ -318,37 +364,50 @@ public class StartActivity extends AppCompatActivity
 
 
     // RECYCLER ADAPTER ----------------------------------------------------------------------------
-    class RVadapter extends RecyclerView.Adapter<RVholder> {
+    class RVadapter extends RecyclerView.Adapter<RVholder> implements View.OnClickListener {
 
         Context context;
         ArrayList<RVitemModel> dataset;
+        Toast toast;
 
         //constructor
         public RVadapter(Context context, ArrayList<RVitemModel> dataset) {
             this.context = context;
             this.dataset = dataset;
+            toast = new Toast(context);
+            toast.setDuration(Toast.LENGTH_SHORT);
+
         }
 
+        // one time
         @Override
         public RVholder onCreateViewHolder(ViewGroup parent, int viewType) {
+
             LayoutInflater inflater = LayoutInflater.from(context);
             View vh_item = inflater.inflate(R.layout.start_activity_recycler_item, null);
+            vh_item.setOnClickListener(this);
             return new RVholder(vh_item);
+
         }
 
+        // multiple time
         @Override
         public void onBindViewHolder(RVholder holder, int position) {
 
             if (holder instanceof RVholder) {
 
-                RVholder item = (RVholder) holder;
+                RVitemModel model = dataset.get(position);
+
+                // set view item id
+                holder.rootView.setId(model.uid.intValue());
+                holder.ib_context_menu.setOnClickListener(this);
 
                 // set name and picture of RVholderItem
-                holder.tv_name.setText(dataset.get(position).name);
+                holder.tv_name.setText(model.name);
                 Picasso.with(context)
                         .load(dataset.get(position).picture)
                         .placeholder(R.drawable.ic_menu_camera)
-                        .into(item.iv_picture);
+                        .into(holder.iv_picture);
             }
 
         }
@@ -358,35 +417,64 @@ public class StartActivity extends AppCompatActivity
             return dataset.size();
         }
 
-    }
 
-    // RECYCLER VIEW HOLDER ------------------------------------------------------------------------
-    class RVholder extends RecyclerView.ViewHolder {
+        @Override
+        public void onClick(View v) {
+            if (toast != null)
+                toast.cancel();
 
-        public TextView tv_name;
-        public ImageView iv_picture;
-
-        public RVholder(View itemView) {
-            super(itemView);
-            tv_name = itemView.findViewById(R.id.tv_name);
-            iv_picture = itemView.findViewById(R.id.iv_picture);
+            toast = Toast.makeText(context, "Clicked RV " + v.getId(), Toast.LENGTH_SHORT);
+            toast.show();
         }
 
 
     }
 
-    // RECYCLER VIEW ITEM --------------------------------------------------------------------------
+    // RECYCLER VIEW HOLDER
+    class RVholder extends RecyclerView.ViewHolder {
+
+        public TextView tv_name;
+        public ImageView iv_picture;
+        public ImageButton ib_context_menu;
+        public View rootView;
+
+        public RVholder(View itemView) {
+            super(itemView);
+            rootView = itemView;
+            tv_name = itemView.findViewById(R.id.tv_name);
+            iv_picture = itemView.findViewById(R.id.iv_picture);
+            ib_context_menu = itemView.findViewById(R.id.ib_context_menu);
+        }
+    }
+
+    // ADAPTER DATA OBSERVER
+    class RVadapterDataObserver extends RecyclerView.AdapterDataObserver {
+
+        public RVadapterDataObserver() {
+            super();
+        }
+
+        @Override
+        public void onChanged() {
+            super.onChanged();
+        }
+    }
+
+    // RECYCLER VIEW ITEM
     public class RVitemModel {
 
+        private Long uid;
         private String name;
         private String picture;
 
-        public RVitemModel(String name, String thumbnail) {
+        public RVitemModel(Long uid, String name, String thumbnail) {
+            this.uid = uid;
             this.name = name;
             this.picture = thumbnail;
         }
 
     }
+
 
 
 }

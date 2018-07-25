@@ -5,9 +5,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class EditItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private final ItemAdapter mAdapter;
+    private final StartActivity.RVadapter mAdapter;
 
-    public EditItemTouchHelperCallback(ItemAdapter adapter) {
+    public EditItemTouchHelperCallback(StartActivity.RVadapter adapter) {
         mAdapter = adapter;
     }
 
@@ -33,7 +33,6 @@ public class EditItemTouchHelperCallback extends ItemTouchHelper.Callback {
                           RecyclerView.ViewHolder target) {
         mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
 
-
         return true;
     }
 
@@ -48,6 +47,28 @@ public class EditItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
         super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+
+    }
+
+    public interface ItemTouchHelperAdapter {
+
+        boolean onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
+    }
+
+    public interface ItemTouchHelperViewHolder {
+
+        void onItemSelected();
+
+        void onItemClear();
+
+
+    }
+
+    public interface OnStartDragListener {
+
+        void onStartDrag(RecyclerView.ViewHolder viewHolder);
 
     }
 }

@@ -16,36 +16,22 @@ import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
+public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements EditItemTouchHelperCallback.ItemTouchHelperAdapter {
 
+    // FIELDS --------------------------------------------------------------------------------------
     private List<ItemModel> mPersonList;
-    OnItemClickListener mItemClickListener;
+    private OnItemClickListener mItemClickListener;
+    private LayoutInflater mInflater;
     private static final int TYPE_ITEM = 0;
-    private final LayoutInflater mInflater;
-    private final OnStartDragListener mDragStartListener;
+    private EditItemTouchHelperCallback.OnStartDragListener mDragStartListener;
     private Context mContext;
+    // FIELDS END ----------------------------------------------------------------------------------
 
-    // interface OnItemClick
-    public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
-    }
 
-    // interface OnItemTouch
-    public interface ItemTouchHelperAdapter {
-        boolean onItemMove(int fromPosition, int toPosition);
 
-        void onItemDismiss(int position);
-    }
-
-    // interface OnItemTouch
-    public interface ItemTouchHelperViewHolder {
-        void onItemSelected();
-
-        void onItemClear();
-    }
-
-    //constructor
-    public ItemAdapter(Context context, List list, OnStartDragListener dragListner) {
+    // RECYCLER ADAPTER METHODS AND INTERFACE IMPLEMENTATIONS---------------------------------------
+    // default methods
+    public ItemAdapter(Context context, List list, EditItemTouchHelperCallback.OnStartDragListener dragListner) {
 
         this.mPersonList = list;
         this.mInflater = LayoutInflater.from(context);
@@ -83,11 +69,8 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return mPersonList.size();
     }
 
-
-
-
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public VHItem onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         if (viewType == TYPE_ITEM) {
             //inflate your layout and pass it to view holder
@@ -105,13 +88,8 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
 
-    // CLICK INTERFACE
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
-        this.mItemClickListener = mItemClickListener;
-    }
 
-
-    // VIEW HOLDER
+    // CLASS VIEW HOLDER ---------------------------------------------------------------------------
     public class VHItem extends RecyclerView.ViewHolder implements View.OnClickListener, ItemTouchHelperViewHolder {
         public TextView title;
         private ImageView imageView;
@@ -145,6 +123,32 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
 
+    // INTERFACE DECLARATION -----------------------------------------------------------------------
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+    // interface OnItemClick
+    public interface OnItemClickListener {
+        public void onItemClick(View view, int position);
+    }
+
+    // interface OnItemTouch
+    public interface OnItemTouch {
+        boolean onItemMove(int fromPosition, int toPosition);
+        void onItemDismiss(int position);
+    }
+
+    // interface OnItemSelected
+    public interface ItemTouchHelperViewHolder {
+        void onItemSelected();
+        void onItemClear();
+    }
+
+
+
+
+    // ON INTERFACE IMPLEMENTATION -----------------------------------------------------------------
     @Override
     public void onItemDismiss(int position) {
         mPersonList.remove(position);
@@ -167,11 +171,6 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             notifyItemMoved(fromPosition, toPosition);
         }
         return true;
-    }
-
-    public void updateList(List list) {
-        mPersonList = list;
-        notifyDataSetChanged();
     }
 
 

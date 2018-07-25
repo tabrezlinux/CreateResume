@@ -15,6 +15,12 @@ import java.sql.Date;
 @ForeignKey(entity = BasicInfo.class,parentColumns = "uid",childColumns = "basic_id",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE,deferred = false)
 public class AcademicQualification {
 
+    public static final String STATUS_PASSED = "pass";
+    public static final String STATUS_PURSUING = "pursuing";
+    public static final String MARKS_TYPE_CGPA = "cgpa";
+    public static final String MARKS_TYPE_PERCENT = "percent";
+
+
     @PrimaryKey(autoGenerate = true)
     public Long uid;
 
@@ -31,20 +37,20 @@ public class AcademicQualification {
     @ColumnInfo(name = "institute")
     public String institute;
 
-    // not null status PASSED or PASSING
+    // PASSED or PASSING
     @NonNull
     @ColumnInfo(name = "passing_status")
     public String passing_status;
 
-    // not null if STATUS is PASSED
+    // STATUS is PASSED
     @ColumnInfo(name = "year")
     public Date year;
 
-    // not null if STATUS is PASSED
+    // STATUS is PASSED
     @ColumnInfo(name = "marks")
     public Double marks;
 
-    // not null if STATUS is PASSED, type CPGA/PERCENTAGE
+    // STATUS is PASSED, type CPGA/PERCENTAGE
     @ColumnInfo(name = "marks_type")
     public String marks_type;
 
