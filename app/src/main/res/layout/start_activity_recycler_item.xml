@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/fab_margin">
+
+    <ImageView
+        android:id="@+id/iv_picture"
+        android:layout_width="128dp"
+        android:layout_height="96dp"
+        app:srcCompat="@drawable/ic_menu_camera" />
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="left|center_vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Musharraf Alam"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_father_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Masoor Alam"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/ib_context_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_weight="0"
+        android:background="@android:drawable/screen_background_light_transparent"
+        app:srcCompat="@drawable/ic_menu_dots" />
+
+</LinearLayout>
+
