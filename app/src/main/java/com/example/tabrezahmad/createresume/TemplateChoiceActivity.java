@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.printservice.PrintService;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -27,15 +25,13 @@ public class TemplateChoiceActivity extends AppCompatActivity implements View.On
 
     public static MyRoomDatabase mDatabase;     // room database
 
-    public static Long BASIC_INFO_FOREIGN_KEY_ID = null;
-
     // ON CREATE ACTIVITY --------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // SET CONTENT LAYOUT
-        setContentView(R.layout.activity_preview);
+        setContentView(R.layout.activity_template_choose);
 
         // INIT DATABASE
         //setupDatabase();
@@ -65,8 +61,8 @@ public class TemplateChoiceActivity extends AppCompatActivity implements View.On
         setSupportActionBar(toolbar);
 
         // fab
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        // FloatingActionButton fab = findViewById(R.id.fab);
+        // fab.setOnClickListener(this);
 
     }
 

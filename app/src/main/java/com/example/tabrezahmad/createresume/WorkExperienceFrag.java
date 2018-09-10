@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.tabrezahmad.createresume.database.FormValidator;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Days;
@@ -32,9 +34,21 @@ import java.util.GregorianCalendar;
 
 public class WorkExperienceFrag extends Fragment implements View.OnClickListener, View.OnTouchListener, DatePickerDialog.OnDateSetListener {
 
-    private TextInputEditText et_company, et_designation, et_role, et_from_date, et_to_date;
+    private TextInputEditText et_company,
+            et_designation,
+            et_role,
+            et_from_date,
+            et_to_date,
+            et_location;
+
     private RadioGroup rg_working_status;
-    private TextInputLayout tl_company, tl_designation, tl_role, tl_from_date, tl_to_date;
+
+    private TextInputLayout tl_company,
+            tl_designation,
+            tl_role,
+            tl_from_date,
+            tl_to_date,
+            tl_location;
 
     private final String WORKING_STATUS_WORKED = "WORKED";
     private final String WORKING_STATUS_WORKING = "WORKING";
@@ -57,22 +71,10 @@ public class WorkExperienceFrag extends Fragment implements View.OnClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // SETUP FIELDS
-        et_company = root.findViewById(R.id.et_company);
-        et_designation = root.findViewById(R.id.et_designation);
-        et_role = root.findViewById(R.id.et_role);
-        et_from_date = root.findViewById(R.id.et_from_date);
-        et_to_date = root.findViewById(R.id.et_to_date);
+        setupViews();
 
-        // SETUP RADIO GROUP
-        rg_working_status = root.findViewById(R.id.rg_working_status);
+        saveValuesToInputText();
 
-        // SETUP FILED LAYOUTS
-        tl_company = root.findViewById(R.id.tl_company);
-        tl_designation = root.findViewById(R.id.tl_designation);
-        tl_role = root.findViewById(R.id.tl_role);
-        tl_from_date = root.findViewById(R.id.tl_from_date);
-        tl_to_date = root.findViewById(R.id.tl_to_date);
 
         // SET ON CLICK
         et_from_date.setOnClickListener(this);
@@ -118,6 +120,111 @@ public class WorkExperienceFrag extends Fragment implements View.OnClickListener
                 et_to_date.setEnabled(false);
                 break;
         }
+
+
+    }
+
+
+
+    private void setupViews() {
+
+        // SETUP FIELDS
+        et_company = root.findViewById(R.id.et_company);
+        et_designation = root.findViewById(R.id.et_designation);
+        et_role = root.findViewById(R.id.et_role);
+        et_from_date = root.findViewById(R.id.et_from_date);
+        et_to_date = root.findViewById(R.id.et_to_date);
+        et_location = root.findViewById(R.id.et_location);
+
+        // SETUP RADIO GROUP
+        rg_working_status = root.findViewById(R.id.rg_working_status);
+
+        // SETUP FILED LAYOUTS
+        tl_company = root.findViewById(R.id.tl_company);
+        tl_designation = root.findViewById(R.id.tl_designation);
+        tl_role = root.findViewById(R.id.tl_role);
+        tl_from_date = root.findViewById(R.id.tl_from_date);
+        tl_to_date = root.findViewById(R.id.tl_to_date);
+//        tl_location = root.findViewById(R.id.et_location);
+
+        //-----------------------------------------------------------------------------------Company
+        //Not null and empty, 2-80 char, save data
+        et_company.addTextChangedListener(FormValidator.getNameWatcher(new FormValidator.MyTextWatcherCallback() {
+            @Override
+            public void onError(int error_code) {
+                switch (error_code){
+                    case FormValidator.ERROR_CODE_IS_EMPTY:
+                        tl_company.setError("Required");
+                        break;
+                    case FormValidator.ERROR_CODE_OUT_OF_RANGE:
+                        tl_company.setError("2-80 Char required");
+                        break;
+                    default:
+                        tl_company.setError(null);
+
+                }
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                tl_company.setError(null);
+                NewResumeActivity.WORK_EXPERIENCE.get(0).company = s;
+            }
+        },2,80));
+
+        //-------------------------------------------------------------------------------Designation
+        //Not null and empty, 2-80 char, save data
+        et_designation.addTextChangedListener(FormValidator.getNameWatcher(new FormValidator.MyTextWatcherCallback() {
+            @Override
+            public void onError(int error_code) {
+                switch (error_code){
+                    case FormValidator.ERROR_CODE_IS_EMPTY:
+                        tl_designation.setError("Required");
+                        break;
+                    case FormValidator.ERROR_CODE_OUT_OF_RANGE:
+                        tl_designation.setError("2-80 Char required");
+                        break;
+                    default:
+                        tl_designation.setError(null);
+
+                }
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                tl_designation.setError(null);
+                NewResumeActivity.WORK_EXPERIENCE.get(0).designation = s;
+            }
+        },2,80));
+
+        //--------------------------------------------------------------------------------------Role
+        //Not null and empty, 2-80 char, save data
+        et_role.addTextChangedListener(FormValidator.getNameWatcher(new FormValidator.MyTextWatcherCallback() {
+            @Override
+            public void onError(int error_code) {
+                switch (error_code){
+                    case FormValidator.ERROR_CODE_IS_EMPTY:
+                        tl_role.setError("Required");
+                        break;
+                    case FormValidator.ERROR_CODE_OUT_OF_RANGE:
+                        tl_role.setError("2-80 Char required");
+                        break;
+                    default:
+                        tl_role.setError(null);
+
+                }
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                tl_role.setError(null);
+                NewResumeActivity.WORK_EXPERIENCE.get(0).role = s;
+            }
+        },2,80));
+
 
 
     }
@@ -234,6 +341,13 @@ public class WorkExperienceFrag extends Fragment implements View.OnClickListener
         }
 
         return true;
+    }
+
+    private void saveValuesToInputText() {
+
+        et_company.setText(NewResumeActivity.WORK_EXPERIENCE.get(0).company);
+        et_designation.setText(NewResumeActivity.WORK_EXPERIENCE.get(0).designation);
+        et_role.setText(NewResumeActivity.WORK_EXPERIENCE.get(0).role);
     }
 
 

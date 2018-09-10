@@ -8,37 +8,35 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverter;
 import android.support.annotation.NonNull;
+import android.webkit.JavascriptInterface;
 
 import java.sql.Date;
 
-@Entity()
-@ForeignKey(entity = BasicInfo.class,parentColumns = "uid",childColumns = "basic_id",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE,deferred = false)
+@Entity
+@ForeignKey(entity = BasicInfo.class,parentColumns = "uid",childColumns = "f_key",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE,deferred = false)
 public class AcademicQualification {
 
-    public static final String STATUS_PASSED = "pass";
+    public static final String STATUS_PASSED = "passed";
     public static final String STATUS_PURSUING = "pursuing";
     public static final String MARKS_TYPE_CGPA = "cgpa";
     public static final String MARKS_TYPE_PERCENT = "percent";
 
 
+
     @PrimaryKey(autoGenerate = true)
     public Long uid;
 
-    // id of Basic_Info Entity
-    @NonNull
-    public Long basic_id;
+    // uid of Basic_Info Entity (foreign key)
+    @ColumnInfo(name = "f_key")
+    public Long f_key;
 
-
-    @NonNull
     @ColumnInfo(name = "course")
     public String course;
 
-    @NonNull
     @ColumnInfo(name = "institute")
     public String institute;
 
     // PASSED or PASSING
-    @NonNull
     @ColumnInfo(name = "passing_status")
     public String passing_status;
 
@@ -48,10 +46,57 @@ public class AcademicQualification {
 
     // STATUS is PASSED
     @ColumnInfo(name = "marks")
-    public Double marks;
+    public Float marks;
 
     // STATUS is PASSED, type CPGA/PERCENTAGE
     @ColumnInfo(name = "marks_type")
     public String marks_type;
 
+    @ColumnInfo(name="index_id")
+    public int index_id;
+
+    @JavascriptInterface
+    public Long getUid() {
+        return uid;
+    }
+
+    @JavascriptInterface
+    public Long getF_key() {
+        return f_key;
+    }
+
+    @JavascriptInterface
+    public String getCourse() {
+        return course;
+    }
+
+    @JavascriptInterface
+    public String getInstitute() {
+        return institute;
+    }
+
+    @JavascriptInterface
+    public String getPassing_status() {
+        return passing_status;
+    }
+
+    @JavascriptInterface
+    public Date getYear() {
+        return year;
+    }
+
+    @JavascriptInterface
+    public Float getMarks() {
+        return marks;
+    }
+
+    @JavascriptInterface
+    public String getMarks_type() {
+        return marks_type;
+    }
+
+    @JavascriptInterface
+    public int getIndex_id() {
+        return index_id;
+    }
 }

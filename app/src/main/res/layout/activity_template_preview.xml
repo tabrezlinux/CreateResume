@@ -5,37 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context=".EditResumeActivity"
+    tools:showIn="@layout/activity_edit">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?attr/colorPrimary"-->
-            <!--android:fitsSystemWindows="true"-->
-            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/sliding_tabs"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:tabMode="scrollable" />
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:fitsSystemWindows="true"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/mPager"
+    <WebView
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/wv_templates"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </WebView>
 
     <!--floating action button-->
     <android.support.design.widget.FloatingActionButton

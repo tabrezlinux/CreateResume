@@ -3,7 +3,6 @@ package com.example.tabrezahmad.createresume.database.Converters;
 import android.arch.persistence.room.TypeConverter;
 
 import java.sql.Date;
-import java.util.List;
 
 /**
  * Created by Me on 04-Jul-18.

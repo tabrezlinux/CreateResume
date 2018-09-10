@@ -1,6 +1,5 @@
 package com.example.tabrezahmad.createresume;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -19,12 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 
-public class MainActivity extends AppCompatActivity
+public class EditResumeActivity extends AppCompatActivity
         implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener, View.OnClickListener {
 
     public static MyRoomDatabase mDatabase;     // room database
@@ -32,8 +30,8 @@ public class MainActivity extends AppCompatActivity
     MyPagerAdapter myPagerAdapter;              // custom pager adapter
     TabLayout tabLayout;                        // tab layout
 
-    public static Long BASIC_INFO_FOREIGN_KEY_ID = null;
-    public static String NAME = "";
+    public static Long BI_FOREIGN_KEY_ID = null;
+    public static String NAME = null;
     public static int TOTAL_TABS = 0;
 
     // ON CREATE ACTIVITY --------------------------------------------------------------------------
@@ -41,15 +39,36 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // 1. get the uid from intent
+        // IF (ROUTE 2)
+        // ROUTE 1 : if no intent found then finish the activity. // we cannot save data without its parent key
+        // ROUTE 2 : else setup the database and load fragments and viewpager
+
+        // ROUTE 1
         Bundle b = getIntent().getExtras();
-        if (b != null)
-            NAME = b.getString("name");
+        if (b != null) {
+
+            NAME = b.getString("name");                     // if intent has name value
+            BI_FOREIGN_KEY_ID = b.getLong("uid");           // if intent has uid value
+
+            if (NAME == null || BI_FOREIGN_KEY_ID == null) {
+                finish();
+                Toast.makeText(getApplicationContext(), "Name is invalid", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), NAME + " " + BI_FOREIGN_KEY_ID, Toast.LENGTH_SHORT).show();
+            }
+        }
+        // ROUTE 2
+        else {
+            finish();
+            Toast.makeText(getApplicationContext(), "Name is invalid", Toast.LENGTH_SHORT).show();
+        }
 
 
         Toast.makeText(this, NAME, Toast.LENGTH_SHORT).show();
 
         // SET CONTENT LAYOUT
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_edit);
 
         // INIT DATABASE
         setupDatabase();
@@ -75,8 +94,8 @@ public class MainActivity extends AppCompatActivity
     private void setupFabAndToolbar() {
 
         // toolbar setup
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // fab
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -120,7 +139,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    // BACK BUTTON PRESS    ------------------------------------------------------------------------
+    // BACK BUTTON PRESS ---------------------------------------------------------------------------
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -189,19 +208,25 @@ public class MainActivity extends AppCompatActivity
     // CLICK LISTENER    ---------------------------------------------------------------------------
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
+            // swap pager to next tab item, if tab item reaches end
+            // then open the final activity for template view or to add photo
             case R.id.fab:
-                if (viewPager.getCurrentItem() < (TOTAL_TABS-1) ) {
+                if (viewPager.getCurrentItem() < (TOTAL_TABS - 1)) {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                     //Toast.makeText(this,"CUR " + viewPager.getCurrentItem() + "COUNT " + TOTAL_TABS,Toast.LENGTH_SHORT).show();
-                } else{
+                } else {
                     finalDialog();
                 }
+                break;
+            default :
                 break;
         }
     }
 
 
+    // open dialog for photo and reference editing
     private void finalDialog() {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -210,9 +235,9 @@ public class MainActivity extends AppCompatActivity
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MainActivity.this, FinalActivity.class);
+                Intent intent = new Intent(EditResumeActivity.this, FinalActivity.class);
                 //Bundle b = new Bundle();
-                //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
+                //b.putLong("FOREIGN_KEY", BI_FOREIGN_KEY_ID);
                 startActivity(intent);
 
             }
@@ -222,9 +247,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Template Activity
-                Intent intent = new Intent(MainActivity.this, PreviewActivity.class);
+                Intent intent = new Intent(EditResumeActivity.this, TemplatePreviewActivity.class);
                 //Bundle b = new Bundle();
-                //b.putLong("FOREIGN_KEY", BASIC_INFO_FOREIGN_KEY_ID);
+                //b.putLong("FOREIGN_KEY", BI_FOREIGN_KEY_ID);
                 startActivity(intent);
             }
         });
@@ -266,9 +291,9 @@ public class MainActivity extends AppCompatActivity
                 case 0:
                     return new BasicInfoFrag();
                 case 1:
-                    return new AcademicQualificationFrag();
+                    return new AcademicQuaFrag();
                 case 2:
-                    return new ProQualificationFrag();
+                    return new ProfessionalQuaFrag();
                 case 3:
                     return new ProjectsAndTrainingsFrag();
                 case 4:

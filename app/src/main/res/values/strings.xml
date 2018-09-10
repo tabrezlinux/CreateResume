@@ -7,6 +7,9 @@
     <string name="nav_header_subtitle">username@domain.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_duplicate">Duplicate</string>
+    <string name="action_delete">Delete</string>
 
     <!--Basic Info-->
     <string name="basic_info_name">Name</string>

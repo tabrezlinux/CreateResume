@@ -8,52 +8,52 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
-import com.example.tabrezahmad.createresume.database.Entity.WorkExperience;
+import com.example.tabrezahmad.createresume.database.Entity.Project;
 
 import java.util.List;
 
 @Dao
-public interface WorkExperienceDAO {
+public interface ProjectDAO {
 
     // find all
-    @Query("SELECT * FROM workexperience")
-    List<WorkExperience> getAllWorkExperience();
+    @Query("SELECT * FROM project")
+    List<Project> getAllProject();
 
     // find single
-    @Query("SELECT * FROM workexperience WHERE f_key == :id")
-    WorkExperience getWorkExperience(Integer id);
+    @Query("SELECT * FROM project WHERE f_key == :id")
+    Project getProject(Integer id);
 
     // find multiple
-    @Query("SELECT * FROM workexperience WHERE f_key IN (:ids)")
-    List<WorkExperience> getWorkExperiences(Integer... ids);
+    @Query("SELECT * FROM project WHERE f_key IN (:ids)")
+    List<Project> getProjects(Integer... ids);
+
 
 
     // insert multiple
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long[] insert(WorkExperience... workExperiences);
+    Long[] insert(Project... projects);
 
     // insert single
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insert(WorkExperience workExperience);
-
+    Long insert(Project project);
 
 
     // update single
     @Update
-    int update(WorkExperience workExperience);
+    int update(Project project);
 
     // update multiple
     @Update
-    int update(WorkExperience... workExperiences);
+    int update(Project... projects);
 
 
 
     // delete single
     @Delete
-    int delete(WorkExperience workExperience);
+    int delete(Project project);
 
     // delete multiple
     @Delete
-    int delete(WorkExperience... workExperiences);
+    int delete(Project... projects);
 
 }

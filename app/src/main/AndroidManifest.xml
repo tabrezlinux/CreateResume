@@ -20,16 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--main activity-->
-        <activity
-            android:name=".MainActivity"
-            android:rotationAnimation="rotate"
-            android:launchMode="singleTop"
-            android:immersive="true"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
         <!--start activity-->
         <activity
             android:name=".StartActivity"
@@ -41,6 +31,25 @@
             </intent-filter>
         </activity>
 
+        <!--new activity-->
+        <activity
+            android:name=".NewResumeActivity"
+            android:rotationAnimation="rotate"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <!--edit activity-->
+        <activity
+            android:name=".EditResumeActivity"
+            android:rotationAnimation="rotate"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
         <!--final activity-->
         <activity
             android:name=".FinalActivity"
@@ -50,7 +59,7 @@
 
         <!--preview activity-->
         <activity
-            android:name=".PreviewActivity"
+            android:name=".TemplatePreviewActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

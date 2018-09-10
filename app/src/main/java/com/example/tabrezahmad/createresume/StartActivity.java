@@ -1,25 +1,15 @@
 package com.example.tabrezahmad.createresume;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaMetadataRetriever;
-import android.media.audiofx.AudioEffect;
-import android.media.effect.Effect;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.service.carrier.CarrierService;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,10 +18,7 @@ import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.telephony.CarrierConfigManager;
-import android.view.ContextMenu;
-import android.view.GestureDetector;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,18 +29,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
+import com.example.tabrezahmad.createresume.database.FormValidator;
 import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 import com.squareup.picasso.Picasso;
 
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.net.ssl.HostnameVerifier;
 
 /**
  * Created by Me on 11-Jul-18.
@@ -63,9 +49,9 @@ public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public static MyRoomDatabase mDatabase;             // room database
-    RecyclerView mRecyclerView;
-    RVadapter adapter;
-
+    RecyclerView mRecyclerView;                         // recycler view
+    RVadapter adapter;                                  // recycler adapter
+    android.support.v7.app.AlertDialog exitDialog;      // alert dialog
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +122,6 @@ public class StartActivity extends AppCompatActivity
             @Override
             public void onTouchEvent(RecyclerView rv, MotionEvent e) {
                 Toast.makeText(StartActivity.this, "touched", Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
@@ -145,19 +130,9 @@ public class StartActivity extends AppCompatActivity
             }
         });
 
-        DatasetAsysTask datasetAsync = new DatasetAsysTask();
-        datasetAsync.execute();
-
-        // ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(itemAdapter);
-
-        // itemTouchHelper
-        // ItemTouchHelper touchHelper = touchHelper = new ItemTouchHelper(callback);;
-
-        // ItemAdapter itemAdapter = new ItemAdapter(this, models, );
-
-        // touchHelper.attachToRecyclerView(mRecyclerView);
-        // mRecyclerView.setAdapter(itemAdapter);.
-
+        // populate all resume entry from database
+        getResumeListAsyncTask getAllDatasetAsync = new getResumeListAsyncTask();
+        getAllDatasetAsync.execute();
 
     }
 
@@ -168,8 +143,32 @@ public class StartActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            // create exit dialog if not created
+            // then show exit dialog
+            if (exitDialog == null) {
+                exitDialog = new android.support.v7.app.AlertDialog.Builder(this)
+                        .setMessage("Exit Application")
+                        .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+            }
+
+            // show exit dialog if not showing
+            if (!exitDialog.isShowing())
+                exitDialog.show();
         }
+
+
     }
 
     @Override
@@ -241,23 +240,38 @@ public class StartActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                newResume();
+                createNewResume();
                 break;
             default:
                 break;
         }
     }
 
-    private void newResume() {
+    // show new resume dialog
+    private void createNewResume() {
 
+        // 1. show username input dialog
         final UserDialog userDialog = new UserDialog(this);
-
         userDialog.show();
 
         Button cancel = userDialog.findViewById(R.id.dialog_cancel);
         Button ok = userDialog.findViewById(R.id.dialog_ok);
         final TextInputEditText et_name = userDialog.findViewById(R.id.name);
 
+
+        // IF (2 ROUTE) ********************************************************
+        // ROUTE - 1
+        //  - on cancel username input dialog
+        //  - if username input is not empty then show alert dialog
+        //  - else cancel username entry dialog
+        // ROUTE - 2
+        //  - on ok username input dialog
+        //  - if username is valid and not empty, create database entry
+        //  - if data entry successful then start Edit Activity (Main Activity)
+        //  - send entry data UID in intent
+        //  - else toast error
+
+        // ROUTE - 1
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,7 +292,13 @@ public class StartActivity extends AppCompatActivity
                     }
                 });
 
-                if (!et_name.getText().toString().trim().isEmpty()) {
+                String NAME = et_name.getText().toString().trim();
+                boolean isEmpty = NAME.isEmpty();
+                boolean isLengthValid = FormValidator.inLengthRange(NAME, 1, 60);
+
+                // if username field is not empty and valid
+                // then alert user
+                if (!isEmpty && isLengthValid) {
                     AlertDialog alert = ab.create();
                     alert.show();
                 } else {
@@ -288,28 +308,33 @@ public class StartActivity extends AppCompatActivity
 
             }
         });
+
+        // ROUTE - 2
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                // if NAME field is not empty and valid then
+                // start new resume activity with intent NAME
                 String NAME = et_name.getText().toString().trim();
-                if (NAME.isEmpty()) {
-                    Toast.makeText(StartActivity.this, "Name is required", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                boolean isEmpty = NAME.isEmpty();
+                boolean isLengthValid = FormValidator.inLengthRange(NAME, 1, 60);
+
+                if (!isEmpty && isLengthValid) {
+                    Intent intent = new Intent(StartActivity.this, NewResumeActivity.class);
                     intent.putExtra("name", NAME);
-                    userDialog.dismiss();
                     startActivity(intent);
-                }
+                    userDialog.dismiss();
+                } else
+                    Toast.makeText(StartActivity.this, "Name is required", Toast.LENGTH_SHORT).show();
+                    //Snackbar.make(rootView, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
             }
         });
 
-
-        //Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
     }
 
+    // resume user dialog
     class UserDialog extends AppCompatDialog {
         Context context;
 
@@ -328,50 +353,165 @@ public class StartActivity extends AppCompatActivity
 
 
     // ASYNC DATASET FETCHING ----------------------------------------------------------------------
-    class DatasetAsysTask extends AsyncTask<Void, Integer, List<BasicInfo>> {
+    class getResumeListAsyncTask extends AsyncTask<Void, Integer, List<RVitemModel>> {
 
         @Override
-        protected List<BasicInfo> doInBackground(Void... voids) {
-            List<BasicInfo> basicInfoList = mDatabase.BasicInfoDAO().getAllBasicInfo();
-            return basicInfoList;
-        }
-
-        @Override
-        protected void onPostExecute(List<BasicInfo> basicInfos) {
-
-            super.onPostExecute(basicInfos);
+        protected List<RVitemModel> doInBackground(Void... voids) {
 
             // ItemModel sets
             ArrayList<RVitemModel> dataset = new ArrayList<>();
 
-            // loop for each BI sets
-            for (BasicInfo bi : basicInfos) {
-                dataset.add(new RVitemModel(bi.uid, bi.name, "imagepath"));
+            // get all database resume entry
+            // create new RVItemModel list
+            // return list of RVItemModels
+            try {
+                List<BasicInfo> basicInfos = mDatabase.BasicInfoDAO().getAllBasicInfo();
+
+                // loop for each BI sets
+                for (BasicInfo bi : basicInfos) {
+                    RVitemModel item = new RVitemModel(bi.uid, bi.name, "imagepath");
+                    dataset.add(item);
+                }
+            } catch (Exception e) {
+                Log.e("Room Databae", "No Resume Entry found");
             }
 
-            Toast.makeText(StartActivity.this, String.valueOf(basicInfos.size()), Toast.LENGTH_SHORT).show();
+            return dataset;
 
-            adapter = new RVadapter(StartActivity.this, dataset);
-            adapter.registerAdapterDataObserver(new RVadapterDataObserver());
+        }
+
+        @Override
+        protected void onPostExecute(List<RVitemModel> rvItemModels) {
+
+            super.onPostExecute(rvItemModels);
+
+            // toast item count
+            Toast.makeText(StartActivity.this, String.valueOf(rvItemModels.size()), Toast.LENGTH_SHORT).show();
+
+            // create adapter
+            // set dataset observer
+            // set adapter
+            adapter = new RVadapter(StartActivity.this, rvItemModels);
             mRecyclerView.setAdapter(adapter);
 
+        }
+
+    }
+
+    // ASYNC DATA INSERT ---------------------------------------------------------------------------
+    class RecordCreateAsyncTask extends AsyncTask<BasicInfo, Integer, BasicInfo> {
+
+        @Override
+        protected BasicInfo doInBackground(BasicInfo... basicInfos) {
+
+            // get first BasicInfo object
+            BasicInfo bi = basicInfos[0];
+
+            // set id = 0
+            bi.uid = null;
+
+            // insert into database
+            Long insertId = mDatabase.BasicInfoDAO().insert(bi);
+
+            if (insertId != null)
+                bi.uid = insertId;
+
+            return bi;
+
+        }
+
+        @Override
+        protected void onPostExecute(BasicInfo basicInfo) {
+            super.onPostExecute(basicInfo);
+
+            // start activity
+            if (basicInfo.uid != null) {
+                Toast.makeText(StartActivity.this, "Record Inserted", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(StartActivity.this, NewResumeActivity.class);
+                intent.putExtra("name", basicInfo.name);
+                intent.putExtra("uid", basicInfo.uid);
+                startActivity(intent);
+            } else
+                Toast.makeText(StartActivity.this, "Error Creating Resume", Toast.LENGTH_SHORT).show();
 
         }
     }
 
+    // ASYNC DATA COPY ------------------------------------------------------------------------
+    class RecordDuplicateAsyncTask extends AsyncTask<BasicInfo, Integer, Long> {
 
-    // RECYCLER VIEW TOUCH HELPER INTERFACE --------------------------------------------------------
+        @Override
+        protected Long doInBackground(BasicInfo... basicInfos) {
+
+            // get first BasicInfo object
+            BasicInfo bi = basicInfos[0];
+
+            // set id = 0, mandatory for duplicating a record
+            bi.uid = null;
+
+            // insert into database
+            Long insertId = mDatabase.BasicInfoDAO().insert(bi);
+
+            if (insertId != null)
+                bi.uid = insertId;
+
+            return bi.uid;
+
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            super.onPostExecute(aLong);
+
+            // show toast and refresh list if insert id is returned
+            if (aLong != null) {
+                Toast.makeText(StartActivity.this, "Record Cloned", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(StartActivity.this, "Error Cloning", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    // ASYNC DATA DELETE ---------------------------------------------------------------------------
+    class RecordDeleteAsyncTask extends AsyncTask<Long, Integer, Integer> {
+
+        @Override
+        protected Integer doInBackground(Long... longs) {
+
+            BasicInfo bi = new BasicInfo();
+            bi.uid = longs.clone()[0];
+
+            Log.e("Record id ", bi.uid.toString());
+
+            // delete record from database
+            return mDatabase.BasicInfoDAO().delete(bi);
+
+        }
+
+        @Override
+        protected void onPostExecute(Integer intVal) {
+            super.onPostExecute(intVal);
+
+            // refresh recycler dataset list
+            if (intVal != null && (intVal > 0)) {
+                adapter.notifyDataSetChanged();
+            } else
+                Toast.makeText(StartActivity.this, "Error Deleting Record", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
 
 
     // RECYCLER ADAPTER ----------------------------------------------------------------------------
     class RVadapter extends RecyclerView.Adapter<RVholder> implements View.OnClickListener {
 
         Context context;
-        ArrayList<RVitemModel> dataset;
+        List<RVitemModel> dataset;
         Toast toast;
 
-        //constructor
-        public RVadapter(Context context, ArrayList<RVitemModel> dataset) {
+        // constructor
+        public RVadapter(Context context, List<RVitemModel> dataset) {
             this.context = context;
             this.dataset = dataset;
             toast = new Toast(context);
@@ -385,7 +525,8 @@ public class StartActivity extends AppCompatActivity
 
             LayoutInflater inflater = LayoutInflater.from(context);
             View vh_item = inflater.inflate(R.layout.start_activity_recycler_item, null);
-            vh_item.setOnClickListener(this);
+
+            // open each list item edit activity with its respective uid
             return new RVholder(vh_item);
 
         }
@@ -396,11 +537,78 @@ public class StartActivity extends AppCompatActivity
 
             if (holder instanceof RVholder) {
 
-                RVitemModel model = dataset.get(position);
+                final RVitemModel model = dataset.get(position);
 
                 // set view item id
                 holder.rootView.setId(model.uid.intValue());
-                holder.ib_context_menu.setOnClickListener(this);
+                holder.rootView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        showToast("Item Clicked");
+
+                        // 1. if item has template_id set
+                        // then preview in new activity
+                        // 2. else open edit activity
+
+                        if (false) {
+                            // TODO show preview activity of this resume
+                        } else {
+                            // show edit activity
+                            Intent intent = new Intent(context, EditResumeActivity.class);
+                            intent.putExtra("uid", model.uid);       // Long uid
+                            intent.putExtra("name", model.name);     // String name
+                            BasicInfo bi = new BasicInfo();
+                            //intent.putExtra(bi);
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+
+                // on context menu click
+                // open popup menu
+                // get the id of list item which context menu has been clicked
+                // handle click events of popup menu e.g delete record, edit record on list item by its id
+                holder.ib_context_menu.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        final Long item_id = model.uid;
+                        Toast.makeText(getApplicationContext(), model.uid.toString(), Toast.LENGTH_SHORT).show();
+
+                        switch (v.getId()) {
+                            case R.id.ib_context_menu:
+                                MyPopupMenu pp = new MyPopupMenu(context, v, Gravity.RIGHT);
+                                pp.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem item) {
+                                        switch (item.getItemId()) {
+                                            case R.id.action_delete:
+                                                new RecordDeleteAsyncTask().execute(item_id);
+                                                break;
+                                            case R.id.action_edit:
+                                                Intent intent = new Intent(context, EditResumeActivity.class);
+                                                intent.putExtra("uid", model.uid);       // Long uid
+                                                intent.putExtra("name", model.name);     // String name
+                                                context.startActivity(intent);
+                                                break;
+                                            case R.id.action_duplicate:
+                                                BasicInfo basicInfo = new BasicInfo();
+                                                basicInfo.uid = model.uid;
+                                                basicInfo.name = model.name;
+                                                new RecordDuplicateAsyncTask().execute(basicInfo);
+                                                break;
+                                        }
+                                        return true;
+                                    }
+                                });
+                                pp.show();
+                                break;
+                        }
+
+                    }
+                });
 
                 // set name and picture of RVholderItem
                 holder.tv_name.setText(model.name);
@@ -412,21 +620,27 @@ public class StartActivity extends AppCompatActivity
 
         }
 
+        // get item count
         @Override
         public int getItemCount() {
             return dataset.size();
         }
 
-
+        // on click
         @Override
         public void onClick(View v) {
+
+        }
+
+        // SHOW TOAST
+        public void showToast(String msg) {
             if (toast != null)
                 toast.cancel();
 
-            toast = Toast.makeText(context, "Clicked RV " + v.getId(), Toast.LENGTH_SHORT);
+            toast = Toast.makeText(StartActivity.this, msg, Toast.LENGTH_SHORT);
             toast.show();
-        }
 
+        }
 
     }
 
@@ -460,7 +674,7 @@ public class StartActivity extends AppCompatActivity
         }
     }
 
-    // RECYCLER VIEW ITEM
+    // RECYCLER VIEW ITEM MODEL
     public class RVitemModel {
 
         private Long uid;
@@ -476,5 +690,13 @@ public class StartActivity extends AppCompatActivity
     }
 
 
+    // CONTEXT POPUP MENU --------------------------------------------------------------------------
+    class MyPopupMenu extends PopupMenu {
+
+        public MyPopupMenu(Context context, View anchor, int gravity) {
+            super(context, anchor, gravity);
+            getMenuInflater().inflate(R.menu.context_menu_start_activity, getMenu());
+        }
+    }
 
 }

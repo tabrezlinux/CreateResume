@@ -14,33 +14,49 @@ import java.util.List;
 @Dao
 public interface BasicInfoDAO {
 
-    // select all user
+    // find all
     @Query("SELECT * FROM basicinfo")
-    public List<BasicInfo> getAllBasicInfo();
+    List<BasicInfo> getAllBasicInfo();
 
-    @Query("SELECT * FROM basicinfo WHERE uid IN (:id) LIMIT 1")
-    public BasicInfo getBasicInfo(int id);
+    // find single
+    @Query("SELECT * FROM basicinfo WHERE uid == :id")
+    BasicInfo getBasicInfo(Integer id);
 
-    @Query("SELECT * FROM basicinfo LIMIT 1")
-    public BasicInfo getBasicInfo();
+    // find multiple
+    @Query("SELECT * FROM basicinfo WHERE uid IN (:ids)")
+    List<BasicInfo> getBasicInfos(Integer... ids);
 
-    // insert
+
+
+    // insert multiple
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(BasicInfo... basicInfos);
+    Long[] insert(BasicInfo... basicInfos);
 
+    // insert single
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public Long insert(BasicInfo basicInfo);
+    Long insert(BasicInfo basicInfo);
 
     //@Insert(onConflict = OnConflictStrategy.REPLACE)
-    //public List<Long> insert(BasicInfo... basicInfos);
+    //List<Long> insert(BasicInfo... basicInfos);
 
-    //update
+
+
+    // update single
     @Update
-    public void update(BasicInfo... basicInfos);
+    int update(BasicInfo basicInfos);
 
-    // delete user
+    // update multiple
+    @Update
+    int update(BasicInfo... basicInfos);
+
+
+
+    // delete single
     @Delete
-    public void delete(BasicInfo... basicInfo);
+    int delete(BasicInfo basicInfos);
 
+    // delete multiple
+    @Delete
+    int delete(BasicInfo... basicInfos);
 
 }

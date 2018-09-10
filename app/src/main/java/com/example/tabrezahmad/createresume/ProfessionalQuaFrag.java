@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
@@ -18,26 +17,31 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.tabrezahmad.createresume.database.Entity.AcademicQualification;
+import com.example.tabrezahmad.createresume.database.Entity.ProfessionalQualification;
 import com.example.tabrezahmad.createresume.database.FormValidator;
 
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ProQualificationFrag extends Fragment implements View.OnClickListener, View.OnTouchListener, DatePickerDialog.OnDateSetListener {
+public class ProfessionalQuaFrag extends Fragment implements View.OnClickListener, View.OnTouchListener, DatePickerDialog.OnDateSetListener {
 
-    private TextInputLayout tl_course, tl_institute, tl_year, tl_marks;
-    private EditText et_course, et_institute, et_year, et_marks;
-    private RadioGroup rg_is_pursuing, rg_marks_type;
-    private String IS_PURSUING, MARKS_TYPE_IS;
+    private TextInputLayout tl_course,
+            tl_institute,
+            tl_year,
+            tl_marks;
 
+    private EditText et_course,
+            et_institute,
+            et_year,
+            et_marks;
 
-    private static final String STATUS_PURSUING = "PURSUING";
-    private static final String STATUS_PASSED = "PASSED";
-    private static final String TYPE_CGPA = "CGPA";
-    private static final String TYPE_PERCENT = "PERCENT";
+    private RadioGroup rg_is_pursuing,
+            rg_marks_type;
+
+    private String IS_PURSUING,
+            MARKS_TYPE_IS;
 
     private DatePickerDialog datePicker;
-    private AcademicQualification QUALIFICATION_OBJ;
 
     View root;
 
@@ -46,14 +50,17 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.qualification_academic, container, false);
+        root = inflater.inflate(R.layout.qualification_professional, container, false);
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        setupViews();
         super.onViewCreated(view, savedInstanceState);
+        setupViews();
+
+        setValuesToInputText();
+        saveFormData();
 
 
     }
@@ -62,17 +69,11 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
     public void onPause() {
         Toast.makeText(getContext(), "Paused Frag", Toast.LENGTH_SHORT).show();
         //saveFormData();
+        printBasicModelData();
         super.onPause();
     }
 
     private void setupViews() {
-
-        // SETUP ACADEMIC QUALIFICATION ENTITY OBJECT
-        QUALIFICATION_OBJ = new AcademicQualification();
-
-        // SET BUTTONS
-        //FloatingActionButton fab = root.findViewById(R.id.fab);
-        //fab.setOnClickListener(this);
 
         // SETUP FIELDS
         et_course = root.findViewById(R.id.course);
@@ -90,6 +91,54 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
         tl_year = root.findViewById(R.id.tl_year);
         tl_marks = root.findViewById(R.id.tl_marks);
 
+        // ----------------------------------------------------------------------------------------- course
+        // not null, not empty,  4 - 60 char
+        et_course.addTextChangedListener(FormValidator.getNameWatcher(new FormValidator.MyTextWatcherCallback() {
+            @Override
+            public void onError(int error_code) {
+                switch (error_code) {
+                    case FormValidator.ERROR_CODE_IS_EMPTY:
+                        tl_course.setError("Required");
+                        break;
+                    case FormValidator.ERROR_CODE_OUT_OF_RANGE:
+                        tl_course.setError("4 - 60 characters required");
+                        break;
+                    default:
+                        tl_course.setError(null);
+                }
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                tl_course.setError(null);
+                NewResumeActivity.PROFESSIONAL_QUA.get(0).course = s;
+            }
+        }, 4, 60));
+
+        // ----------------------------------------------------------------------------------------- course
+        // not null, not empty,  4 - 60 char
+        et_institute.addTextChangedListener(FormValidator.getNameWatcher(new FormValidator.MyTextWatcherCallback() {
+            @Override
+            public void onError(int error_code) {
+                switch (error_code) {
+                    case FormValidator.ERROR_CODE_IS_EMPTY:
+                        tl_institute.setError("Required");
+                        break;
+                    case FormValidator.ERROR_CODE_OUT_OF_RANGE:
+                        tl_institute.setError("4 - 60 characters required");
+                        break;
+                    default:
+                        tl_institute.setError(null);
+                }
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                tl_institute.setError(null);
+                NewResumeActivity.PROFESSIONAL_QUA.get(0).institute = s;
+            }
+        }, 4, 60));
+
         // ON CLICK LISTENER
         et_year.setOnClickListener(this);
 
@@ -102,7 +151,7 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_pursuing:
-                        IS_PURSUING = STATUS_PURSUING;
+                        IS_PURSUING = ProfessionalQualification.STATUS_PURSUING;
                         tl_year.setHint("Current Year");
 
                         // disable marks_type radios
@@ -113,7 +162,7 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
                         break;
 
                     case R.id.rb_passed:
-                        IS_PURSUING = STATUS_PASSED;
+                        IS_PURSUING = ProfessionalQualification.STATUS_PASSED;
                         tl_year.setHint("Year of Passing");
 
                         // enable marks_type radios
@@ -132,43 +181,55 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_cgpa:
-                        MARKS_TYPE_IS = TYPE_CGPA;
-                        tl_marks.setHint(TYPE_CGPA + " Marks");
-                        Toast.makeText(getContext(), TYPE_CGPA, Toast.LENGTH_SHORT).show();
+                        MARKS_TYPE_IS = ProfessionalQualification.MARKS_TYPE_GRADE;
+                        tl_marks.setHint(ProfessionalQualification.MARKS_TYPE_GRADE + " Marks");
                         break;
                     case R.id.rb_percentage:
-                        MARKS_TYPE_IS = TYPE_PERCENT;
+                        MARKS_TYPE_IS = ProfessionalQualification.MARKS_TYPE_PERCENT;
                         tl_marks.setHint("Marks Percentage (%)");
-                        Toast.makeText(getContext(), TYPE_PERCENT, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         });
 
         // set IS_PURSUING == pursuing/passed
-        IS_PURSUING = rg_is_pursuing.getCheckedRadioButtonId() == R.id.rb_passed ? STATUS_PASSED : STATUS_PURSUING;
+        IS_PURSUING = rg_is_pursuing.getCheckedRadioButtonId() == R.id.rb_passed ? ProfessionalQualification.STATUS_PASSED : ProfessionalQualification.STATUS_PURSUING;
 
         // set MARKS_TYPE = cgpa/percentage
-        MARKS_TYPE_IS = rg_marks_type.getCheckedRadioButtonId() == R.id.rb_cgpa ? TYPE_CGPA : TYPE_PERCENT;
+        MARKS_TYPE_IS = rg_marks_type.getCheckedRadioButtonId() == R.id.rb_cgpa ? ProfessionalQualification.MARKS_TYPE_GRADE : ProfessionalQualification.MARKS_TYPE_PERCENT;
 
     }
+
+    private void setValuesToInputText() {
+
+
+        // set course
+        et_course.setText(NewResumeActivity.PROFESSIONAL_QUA.get(0).course);
+        et_institute.setText(NewResumeActivity.PROFESSIONAL_QUA.get(0).institute);
+
+    }
+
+    private void printBasicModelData() {
+        Log.e("Professional course", NewResumeActivity.PROFESSIONAL_QUA.get(0).course);
+        Log.e("Professional institute", NewResumeActivity.PROFESSIONAL_QUA.get(0).institute);
+        Log.e("Professional passing", NewResumeActivity.PROFESSIONAL_QUA.get(0).passing_status);
+        Log.e("Professional markstype", NewResumeActivity.PROFESSIONAL_QUA.get(0).marks_type);
+    }
+
+
 
 
     // SAVE FORM DATA
     private void saveFormData() {
 
-
-        // MUST SET FOREIGN_VALUE OF MAIN_ACTIVITY.BASIC_INFO_FOREIGN_KEY_ID
-        QUALIFICATION_OBJ.basic_id = MainActivity.BASIC_INFO_FOREIGN_KEY_ID;
-
         // SET FORM DATA
-        QUALIFICATION_OBJ.course = et_course.getText().toString();
-        QUALIFICATION_OBJ.institute = et_institute.getText().toString();
-        QUALIFICATION_OBJ.passing_status = IS_PURSUING;
+        NewResumeActivity.PROFESSIONAL_QUA.get(0).course = et_course.getText().toString();
+        NewResumeActivity.PROFESSIONAL_QUA.get(0).institute = et_institute.getText().toString();
+        NewResumeActivity.PROFESSIONAL_QUA.get(0).passing_status = IS_PURSUING;
 
         String passing_year = et_year.getText().toString();
         Date year = new Date(System.currentTimeMillis());
-        QUALIFICATION_OBJ.year = year;
+        NewResumeActivity.PROFESSIONAL_QUA.get(0).year = year;
 
         try {
             year = Date.valueOf(passing_year);
@@ -180,49 +241,25 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
 
         // if PASSED then et_year, et_marks, et_marks_type is required
         // else et_year == either empty/required
-        if (IS_PURSUING == STATUS_PASSED) {
-            QUALIFICATION_OBJ.year = year;
+        if (IS_PURSUING == ProfessionalQualification.STATUS_PASSED) {
+            NewResumeActivity.PROFESSIONAL_QUA.get(0).year = year;
             try {
-                QUALIFICATION_OBJ.marks = Double.parseDouble(et_marks.getText().toString());
+                NewResumeActivity.PROFESSIONAL_QUA.get(0).marks = Float.parseFloat(et_marks.getText().toString());
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(getClass().getName(), "Parsing Error, Invalid Marks");
             }
 
-            QUALIFICATION_OBJ.marks_type = MARKS_TYPE_IS;
+            NewResumeActivity.PROFESSIONAL_QUA.get(0).marks_type = MARKS_TYPE_IS;
 
         } else {
-            QUALIFICATION_OBJ.year = year;
-            QUALIFICATION_OBJ.marks = null;
-            QUALIFICATION_OBJ.marks_type = null;
+            NewResumeActivity.PROFESSIONAL_QUA.get(0).year = year;
+            NewResumeActivity.PROFESSIONAL_QUA.get(0).marks = null;
+            NewResumeActivity.PROFESSIONAL_QUA.get(0).marks_type = null;
         }
 
         // validate form data
         boolean isValid = true; //validateFormData(QUALIFICATION_OBJ);
-
-        // if form is valid then save
-        if (isValid) {
-
-            // save model
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // insert and get insert_id
-                    Long id = MainActivity.mDatabase.AcademicQualificationDAO().insert(QUALIFICATION_OBJ);
-                    // set insert_id to Qualification Object
-                    QUALIFICATION_OBJ.uid = id;
-                    QUALIFICATION_OBJ.basic_id = MainActivity.BASIC_INFO_FOREIGN_KEY_ID;
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), "Inserted ID = " + String.valueOf(QUALIFICATION_OBJ.uid), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
-            t.start();
-        }
-
 
     }
 
@@ -231,22 +268,7 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
 
         boolean IS_VALID_FORM = true;
 
-        // et_course ==null || empty
-        if (FormValidator.isEmpty(et_course))
-            // field is required
-            IS_VALID_FORM = false;
 
-        // et_institute !=null
-        if (FormValidator.isEmpty(et_institute))
-            // field is required
-            IS_VALID_FORM = false;
-
-        // IF PASSED then et_year, marks_type and marks are required
-        if (IS_PURSUING == STATUS_PASSED) {
-            IS_VALID_FORM = FormValidator.isEmpty(et_year);
-            IS_VALID_FORM = FormValidator.isEmpty(et_marks);
-            IS_VALID_FORM = (MARKS_TYPE_IS == TYPE_CGPA || MARKS_TYPE_IS == TYPE_PERCENT) ? true : false;
-        }
 
         return IS_VALID_FORM;
 
@@ -273,11 +295,6 @@ public class ProQualificationFrag extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            case R.id.fab:
-                saveFormData();
-                Toast.makeText(getContext(), "click received at" + getClass().getName(), Toast.LENGTH_SHORT).show();
-                break;
             case R.id.et_year:
                 showDatePickerDialog(et_year);
                 break;

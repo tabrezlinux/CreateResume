@@ -31,7 +31,7 @@ public class EditItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                           RecyclerView.ViewHolder target) {
-        mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        //mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
 
         return true;
     }
@@ -39,10 +39,10 @@ public class EditItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
-        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        //mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
 
 
-        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        //mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
     @Override
     public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {

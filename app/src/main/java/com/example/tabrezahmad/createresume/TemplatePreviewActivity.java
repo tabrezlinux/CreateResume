@@ -1,7 +1,5 @@
 package com.example.tabrezahmad.createresume;
 
-import android.annotation.SuppressLint;
-import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -10,7 +8,6 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
-import android.printservice.PrintService;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,8 +15,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -30,7 +25,7 @@ import com.example.tabrezahmad.createresume.database.MyRoomDatabase;
 
 import java.sql.Date;
 
-public class PreviewActivity extends AppCompatActivity implements View.OnClickListener {
+public class TemplatePreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static MyRoomDatabase mDatabase;     // room database
 
@@ -43,7 +38,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
         // SET CONTENT LAYOUT
-        setContentView(R.layout.activity_template);
+        setContentView(R.layout.activity_template_preview);
 
         // INIT DATABASE
         //setupDatabase();
@@ -115,7 +110,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         basicInfo.marital = "Unmarried";
         basicInfo.email = "someone.one@gmail.com";
         basicInfo.mobile = new String[]{"996432452331"};
-        basicInfo.address = "Road no.5, local street, patna-80000, bihar, india";
+        basicInfo.address= new String[]{"Road no.5", "local street", "patna", "bihar", "india", "8000"};
 
 
         wv_templates.addJavascriptInterface(basicInfo, "jObj");

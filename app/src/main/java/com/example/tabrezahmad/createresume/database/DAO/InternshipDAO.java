@@ -8,52 +8,54 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.example.tabrezahmad.createresume.database.Entity.BasicInfo;
-import com.example.tabrezahmad.createresume.database.Entity.WorkExperience;
+import com.example.tabrezahmad.createresume.database.Entity.Internship;
 
 import java.util.List;
 
 @Dao
-public interface WorkExperienceDAO {
+public interface InternshipDAO {
 
     // find all
-    @Query("SELECT * FROM workexperience")
-    List<WorkExperience> getAllWorkExperience();
+    @Query("SELECT * FROM internship")
+    List<Internship> getAllIngernship();
 
     // find single
-    @Query("SELECT * FROM workexperience WHERE f_key == :id")
-    WorkExperience getWorkExperience(Integer id);
+    @Query("SELECT * FROM internship WHERE f_key == :id")
+    Internship getInternship(Integer id);
 
     // find multiple
-    @Query("SELECT * FROM workexperience WHERE f_key IN (:ids)")
-    List<WorkExperience> getWorkExperiences(Integer... ids);
+    @Query("SELECT * FROM internship WHERE f_key IN (:ids)")
+    List<Internship> getInternships(Integer... ids);
+
 
 
     // insert multiple
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long[] insert(WorkExperience... workExperiences);
+    Long[] insert(Internship... internships);
 
     // insert single
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insert(WorkExperience workExperience);
+    Long insert(Internship internship);
 
 
 
     // update single
     @Update
-    int update(WorkExperience workExperience);
+    int update(Internship internship);
 
     // update multiple
     @Update
-    int update(WorkExperience... workExperiences);
+    int update(Internship... internships);
 
 
 
     // delete single
     @Delete
-    int delete(WorkExperience workExperience);
+    int delete(Internship internship);
 
     // delete multiple
     @Delete
-    int delete(WorkExperience... workExperiences);
+    int delete(Internship... internships);
+
 
 }
